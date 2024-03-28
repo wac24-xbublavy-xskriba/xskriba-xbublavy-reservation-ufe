@@ -1,0 +1,26 @@
+### compilation stage
+FROM node:latest AS build
+
+RUN mkdir /build
+WORKDIR /build
+
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+COPY package.json .
+RUN yarn
+
+COPY . .
+RUN yarn build
+
+### prepare go embedding of SPA server
+FROM milung/spa-server as spa-build
+
+COPY --from=build /build/www public
+RUN ./build.sh
+
+### scratch image - no additional dependencies only server process
+FROM scratch
+ENV CSP_HEADER=false
+
+COPY --from=spa-build /app/server /server
+CMD ["/server"]
+EXPOSE 8080
