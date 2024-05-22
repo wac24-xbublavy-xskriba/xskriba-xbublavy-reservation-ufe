@@ -232,48 +232,78 @@ export class XskribaXbublavyReservationApp {
             {this.selectedAmbulance && (
               <Route
                 path={match('/ambulance/:userId/reservations/:id', { exact: true, strict: true })}
-                render={() => <p>reservation detail</p>}
+                render={({ id }) => (
+                  <xskriba-xbublavy-reservation-detail
+                    api-base={this.apiBase}
+                    ambulance-reservation-id={id}
+                  />
+                )}
               />
             )}
             {this.selectedAmbulance && (
               <Route
                 path={match('/ambulance/:userId/reservations', { exact: true, strict: true })}
                 render={() => (
-                  <xskriba-xbublavy-reservations-list ambulance={this.selectedAmbulance} />
+                  <xskriba-xbublavy-reservations-list
+                    api-base={this.apiBase}
+                    ambulance={this.selectedAmbulance}
+                  />
                 )}
               />
             )}
             {this.selectedAmbulance && (
               <Route
                 path={match('/ambulance/:userId', { exact: true, strict: true })}
-                render={() => <xskriba-xbublavy-ambulance-create />}
+                render={({ userId }) => (
+                  <xskriba-xbublavy-ambulance-create api-base={this.apiBase} user-id={userId} />
+                )}
               />
             )}
-            <Route path="/ambulance" render={() => <xskriba-xbublavy-ambulance-create />} />
+            <Route
+              path="/ambulance"
+              render={() => <xskriba-xbublavy-ambulance-create api-base={this.apiBase} />}
+            />
 
             {/* PATIENT ROUTES */}
             {this.selectedPatient && (
               <Route
                 path={match('/patient/:userId/reservations/create', { exact: true, strict: true })}
-                render={() => <p>create reservation</p>}
+                render={() => (
+                  <xskriba-xbublavy-reservation-create
+                    api-base={this.apiBase}
+                    patient={this.selectedPatient}
+                  />
+                )}
               />
             )}
             {this.selectedPatient && (
               <Route
                 path={match('/patient/:userId/reservations/:id', { exact: true, strict: true })}
-                render={() => <p>reservation detail</p>}
+                render={({ id }) => (
+                  <xskriba-xbublavy-reservation-detail
+                    api-base={this.apiBase}
+                    patient-reservation-id={id}
+                  />
+                )}
               />
             )}
             {this.selectedPatient && (
               <Route
                 path={match('/patient/:userId/reservations', { exact: true, strict: true })}
-                render={() => <xskriba-xbublavy-reservations-list patient={this.selectedPatient} />}
+                render={() => (
+                  <xskriba-xbublavy-reservations-list
+                    api-base={this.apiBase}
+                    patient={this.selectedPatient}
+                  />
+                )}
               />
             )}
             {this.selectedPatient && (
               <Route
                 path={match('/patient/:userId', { exact: true, strict: true })}
-                render={() => <xskriba-xbublavy-patient-create api-base={this.apiBase} />}
+                render={({ userId }) => (
+                  <xskriba-xbublavy-patient-create api-base={this.apiBase} user-id={userId} />
+                )}
               />
             )}
             <Route

@@ -56,6 +56,10 @@ footer {
   padding-top: 12px;
 }
 
+sl-option {
+  text-transform: capitalize;
+}
+
 /* Custom styles */
 .validity-styles sl-input[help-text]::part(base),
 .validity-styles sl-select[help-text]::part(combobox),

@@ -9,6 +9,8 @@ import { Ambulance, Patient } from "./api/reservation";
 export { Ambulance, Patient } from "./api/reservation";
 export namespace Components {
     interface XskribaXbublavyAmbulanceCreate {
+        "apiBase": string;
+        "userId": string;
     }
     interface XskribaXbublavyMainMenu {
         "ambulances": Ambulance[];
@@ -16,14 +18,28 @@ export namespace Components {
     }
     interface XskribaXbublavyPatientCreate {
         "apiBase": string;
+        "userId": string;
     }
     interface XskribaXbublavyReservationApp {
         "apiBase": string;
+    }
+    interface XskribaXbublavyReservationCreate {
+        "apiBase": string;
+        "patient": Patient | null;
+    }
+    interface XskribaXbublavyReservationDetail {
+        "ambulanceReservationId": string;
+        "apiBase": string;
+        "patientReservationId": string;
     }
     interface XskribaXbublavyReservationsList {
         "ambulance": Ambulance | null;
         "patient": Patient | null;
     }
+}
+export interface XskribaXbublavyAmbulanceCreateCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXskribaXbublavyAmbulanceCreateElement;
 }
 export interface XskribaXbublavyMainMenuCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -34,7 +50,18 @@ export interface XskribaXbublavyPatientCreateCustomEvent<T> extends CustomEvent<
     target: HTMLXskribaXbublavyPatientCreateElement;
 }
 declare global {
+    interface HTMLXskribaXbublavyAmbulanceCreateElementEventMap {
+        "ambulanceCreated": Ambulance;
+    }
     interface HTMLXskribaXbublavyAmbulanceCreateElement extends Components.XskribaXbublavyAmbulanceCreate, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXskribaXbublavyAmbulanceCreateElementEventMap>(type: K, listener: (this: HTMLXskribaXbublavyAmbulanceCreateElement, ev: XskribaXbublavyAmbulanceCreateCustomEvent<HTMLXskribaXbublavyAmbulanceCreateElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXskribaXbublavyAmbulanceCreateElementEventMap>(type: K, listener: (this: HTMLXskribaXbublavyAmbulanceCreateElement, ev: XskribaXbublavyAmbulanceCreateCustomEvent<HTMLXskribaXbublavyAmbulanceCreateElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLXskribaXbublavyAmbulanceCreateElement: {
         prototype: HTMLXskribaXbublavyAmbulanceCreateElement;
@@ -81,6 +108,18 @@ declare global {
         prototype: HTMLXskribaXbublavyReservationAppElement;
         new (): HTMLXskribaXbublavyReservationAppElement;
     };
+    interface HTMLXskribaXbublavyReservationCreateElement extends Components.XskribaXbublavyReservationCreate, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyReservationCreateElement: {
+        prototype: HTMLXskribaXbublavyReservationCreateElement;
+        new (): HTMLXskribaXbublavyReservationCreateElement;
+    };
+    interface HTMLXskribaXbublavyReservationDetailElement extends Components.XskribaXbublavyReservationDetail, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyReservationDetailElement: {
+        prototype: HTMLXskribaXbublavyReservationDetailElement;
+        new (): HTMLXskribaXbublavyReservationDetailElement;
+    };
     interface HTMLXskribaXbublavyReservationsListElement extends Components.XskribaXbublavyReservationsList, HTMLStencilElement {
     }
     var HTMLXskribaXbublavyReservationsListElement: {
@@ -92,11 +131,16 @@ declare global {
         "xskriba-xbublavy-main-menu": HTMLXskribaXbublavyMainMenuElement;
         "xskriba-xbublavy-patient-create": HTMLXskribaXbublavyPatientCreateElement;
         "xskriba-xbublavy-reservation-app": HTMLXskribaXbublavyReservationAppElement;
+        "xskriba-xbublavy-reservation-create": HTMLXskribaXbublavyReservationCreateElement;
+        "xskriba-xbublavy-reservation-detail": HTMLXskribaXbublavyReservationDetailElement;
         "xskriba-xbublavy-reservations-list": HTMLXskribaXbublavyReservationsListElement;
     }
 }
 declare namespace LocalJSX {
     interface XskribaXbublavyAmbulanceCreate {
+        "apiBase"?: string;
+        "onAmbulanceCreated"?: (event: XskribaXbublavyAmbulanceCreateCustomEvent<Ambulance>) => void;
+        "userId"?: string;
     }
     interface XskribaXbublavyMainMenu {
         "ambulances"?: Ambulance[];
@@ -107,9 +151,19 @@ declare namespace LocalJSX {
     interface XskribaXbublavyPatientCreate {
         "apiBase"?: string;
         "onPatientCreated"?: (event: XskribaXbublavyPatientCreateCustomEvent<Patient>) => void;
+        "userId"?: string;
     }
     interface XskribaXbublavyReservationApp {
         "apiBase"?: string;
+    }
+    interface XskribaXbublavyReservationCreate {
+        "apiBase"?: string;
+        "patient"?: Patient | null;
+    }
+    interface XskribaXbublavyReservationDetail {
+        "ambulanceReservationId"?: string;
+        "apiBase"?: string;
+        "patientReservationId"?: string;
     }
     interface XskribaXbublavyReservationsList {
         "ambulance"?: Ambulance | null;
@@ -120,6 +174,8 @@ declare namespace LocalJSX {
         "xskriba-xbublavy-main-menu": XskribaXbublavyMainMenu;
         "xskriba-xbublavy-patient-create": XskribaXbublavyPatientCreate;
         "xskriba-xbublavy-reservation-app": XskribaXbublavyReservationApp;
+        "xskriba-xbublavy-reservation-create": XskribaXbublavyReservationCreate;
+        "xskriba-xbublavy-reservation-detail": XskribaXbublavyReservationDetail;
         "xskriba-xbublavy-reservations-list": XskribaXbublavyReservationsList;
     }
 }
@@ -131,6 +187,8 @@ declare module "@stencil/core" {
             "xskriba-xbublavy-main-menu": LocalJSX.XskribaXbublavyMainMenu & JSXBase.HTMLAttributes<HTMLXskribaXbublavyMainMenuElement>;
             "xskriba-xbublavy-patient-create": LocalJSX.XskribaXbublavyPatientCreate & JSXBase.HTMLAttributes<HTMLXskribaXbublavyPatientCreateElement>;
             "xskriba-xbublavy-reservation-app": LocalJSX.XskribaXbublavyReservationApp & JSXBase.HTMLAttributes<HTMLXskribaXbublavyReservationAppElement>;
+            "xskriba-xbublavy-reservation-create": LocalJSX.XskribaXbublavyReservationCreate & JSXBase.HTMLAttributes<HTMLXskribaXbublavyReservationCreateElement>;
+            "xskriba-xbublavy-reservation-detail": LocalJSX.XskribaXbublavyReservationDetail & JSXBase.HTMLAttributes<HTMLXskribaXbublavyReservationDetailElement>;
             "xskriba-xbublavy-reservations-list": LocalJSX.XskribaXbublavyReservationsList & JSXBase.HTMLAttributes<HTMLXskribaXbublavyReservationsListElement>;
         }
     }

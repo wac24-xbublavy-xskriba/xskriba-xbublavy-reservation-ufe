@@ -3,6 +3,9 @@ import { href } from 'stencil-router-v2'
 import { z } from 'zod'
 
 import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.svg'
+import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
+
+// TODO: delete button, update mutation, get patient by id
 
 import { PatientApiFactory, Sex, type Patient } from '../../api/reservation'
 
@@ -26,6 +29,7 @@ const schema = z
 })
 export class XskribaXbublavyPatientCreate {
   @Prop() apiBase: string
+  @Prop() userId: string
 
   @State() isValid: boolean = false
   @State() globalError: string | null = null
@@ -85,13 +89,19 @@ export class XskribaXbublavyPatientCreate {
       this.entry.birthday &&
       this.entry.sex
 
+    const isUpdate = !!this.userId
+
     return (
       <Host>
         <sl-card class="wrapper">
           <header slot="header">
-            <sl-icon-button src={backIcon} label="Back" {...href('/')}></sl-icon-button>
+            <sl-icon-button
+              src={backIcon}
+              label="Back"
+              {...href(isUpdate ? `/patient/${this.userId}/reservations` : '/')}
+            ></sl-icon-button>
 
-            <h3>Create Patient</h3>
+            <h3>{isUpdate ? 'My Profile' : 'Create Patient'}</h3>
           </header>
 
           <form onSubmit={event => this.handleSubmit(event)} class="validity-styles">
@@ -103,6 +113,7 @@ export class XskribaXbublavyPatientCreate {
                 value={this.entry?.firstName}
                 on-sl-input={event => this.handleInput(event)}
                 help-text={this.errors.firstName}
+                disabled={isUpdate}
                 required
               ></sl-input>
 
@@ -113,6 +124,7 @@ export class XskribaXbublavyPatientCreate {
                 value={this.entry?.lastName}
                 on-sl-input={event => this.handleInput(event)}
                 help-text={this.errors.lastName}
+                disabled={isUpdate}
                 required
               ></sl-input>
             </div>
@@ -125,6 +137,7 @@ export class XskribaXbublavyPatientCreate {
                 value={this.entry?.birthday}
                 on-sl-input={event => this.handleInput(event)}
                 help-text={this.errors.birthday}
+                disabled={isUpdate}
                 required
               ></sl-input>
 
@@ -135,10 +148,12 @@ export class XskribaXbublavyPatientCreate {
                 on-sl-input={event => this.handleInput(event)}
                 value={this.entry?.sex}
                 help-text={this.errors.sex}
+                disabled={isUpdate}
                 required
               >
-                <sl-option value="male">Male</sl-option>
-                <sl-option value="female">Female</sl-option>
+                {Object.values(Sex).map(sex => (
+                  <sl-option value={sex}>{sex}</sl-option>
+                ))}
               </sl-select>
             </div>
 
@@ -152,9 +167,16 @@ export class XskribaXbublavyPatientCreate {
               resize="auto"
             ></sl-textarea>
 
+            {this.globalError && (
+              <sl-alert variant="danger" open>
+                <sl-icon slot="icon" src={dangerIcon}></sl-icon>
+                <strong>{this.globalError}</strong>
+              </sl-alert>
+            )}
+
             <footer>
               <sl-button disabled={!canSubmit} type="submit" variant="primary">
-                Create Patient
+                {isUpdate ? 'Update Profile' : 'Create Patient'}
               </sl-button>
             </footer>
           </form>
