@@ -1,0 +1,136 @@
+@import '~@shoelace-style/shoelace/dist/themes/light.css';
+
+:host {
+  width: 100%;
+  max-width: 600px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+
+.wrapper .card {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  background: red;
+
+  align-items: center;
+}
+
+.wrapper form {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  gap: 18px;
+}
+
+.wrapper form sl-input {
+  width: 100%;
+}
+
+.wrapper form div {
+  display: flex;
+  flex-direction: row;
+
+  width: 100%;
+  gap: 12px;
+}
+
+.wrapper h3 {
+  font-size: 24px;
+  margin-block: 12px;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  padding-top: 12px;
+}
+
+/* Custom styles */
+.validity-styles sl-input[help-text]::part(base),
+.validity-styles sl-select[help-text]::part(combobox),
+.validity-styles sl-checkbox[help-text]::part(control),
+.validity-styles sl-textarea[help-text]::part(base) {
+  border-color: var(--sl-color-danger-600) !important;
+}
+
+.validity-styles [help-text]::part(form-control-label),
+.validity-styles [help-text]::part(form-control-help-text),
+.validity-styles sl-checkbox[help-text]::part(label) {
+  color: var(--sl-color-danger-700) !important;
+}
+
+.validity-styles sl-checkbox[help-text]::part(control) {
+  outline: none !important;
+}
+
+.validity-styles sl-input:focus-within[help-text]::part(base),
+.validity-styles sl-select:focus-within[help-text]::part(combobox),
+.validity-styles sl-checkbox:focus-within[help-text]::part(control),
+.validity-styles sl-textarea:focus-within[help-text]::part(base) {
+  border-color: var(--sl-color-danger-600) !important;
+  box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-danger-300) !important;
+}
+
+/* user invalid styles */
+.validity-styles sl-input[data-user-invalid]::part(base),
+.validity-styles sl-select[data-user-invalid]::part(combobox),
+.validity-styles sl-checkbox[data-user-invalid]::part(control),
+.validity-styles sl-textarea[data-user-invalid]::part(base) {
+  border-color: var(--sl-color-danger-600);
+}
+
+.validity-styles [data-user-invalid]::part(form-control-label),
+.validity-styles [data-user-invalid]::part(form-control-help-text),
+.validity-styles sl-checkbox[data-user-invalid]::part(label) {
+  color: var(--sl-color-danger-700);
+}
+
+.validity-styles sl-checkbox[data-user-invalid]::part(control) {
+  outline: none;
+}
+
+.validity-styles sl-input:focus-within[data-user-invalid]::part(base),
+.validity-styles sl-select:focus-within[data-user-invalid]::part(combobox),
+.validity-styles sl-checkbox:focus-within[data-user-invalid]::part(control),
+.validity-styles sl-textarea:focus-within[data-user-invalid]::part(base) {
+  border-color: var(--sl-color-danger-600);
+  box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-danger-300);
+}
+
+/* User valid styles */
+.validity-styles sl-input[data-user-valid]::part(base),
+.validity-styles sl-select[data-user-valid]::part(combobox),
+.validity-styles sl-checkbox[data-user-valid]::part(control),
+.validity-styles sl-textarea[data-user-valid]::part(base) {
+  border-color: var(--sl-color-success-600);
+}
+
+.validity-styles [data-user-valid]::part(form-control-label),
+.validity-styles [data-user-valid]::part(form-control-help-text),
+.validity-styles sl-checkbox[data-user-valid]::part(label) {
+  color: var(--sl-color-success-700);
+}
+
+.validity-styles sl-checkbox[data-user-valid]::part(control) {
+  background-color: var(--sl-color-success-600);
+  outline: none;
+}
+
+.validity-styles sl-input:focus-within[data-user-valid]::part(base),
+.validity-styles sl-select:focus-within[data-user-valid]::part(combobox),
+.validity-styles sl-checkbox:focus-within[data-user-valid]::part(control),
+.validity-styles sl-textarea:focus-within[data-user-valid]::part(base) {
+  border-color: var(--sl-color-success-600);
+  box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-success-300);
+}

@@ -1,11 +1,89 @@
+@import '~@shoelace-style/shoelace/dist/themes/light.css';
+
 :host {
   display: flex;
   flex-direction: column;
 
   height: 100vh;
+}
 
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--sl-color-gray-200);
+}
+
+.header_left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header_left h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.header_right {
+  display: flex;
+  gap: 8px;
+}
+
+.header_user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  height: 100%;
+  margin-left: -12px;
+}
+
+.header_user > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header_user > div > h2 {
+  font-size: 15px;
+  line-height: 1;
+  margin: 0;
+}
+
+.header_user .badge {
+  font-size: 8px !important;
+}
+
+.avatar {
+  --size: 36px;
+  display: flex;
+}
+
+main {
+  display: flex;
+  flex: 1;
   align-items: center;
   justify-content: center;
 
-  gap: 8px;
+  padding: 24px;
+}
+
+.spinner {
+  font-size: 64px;
+  --track-width: 4px;
+}
+
+.submenu {
+  font-size: 12px;
+  display: block;
+  padding: 8px 28px;
+  color: var(--sl-color-gray-500);
+}
+
+sl-breadcrumb {
+  padding: 8px 24px;
 }
