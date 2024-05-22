@@ -23,6 +23,9 @@ export const config: Config = {
     transformIgnorePatterns: ['/node_modules/(?!axios)'],
     transform: {
       '^.+\\.(js|jsx)$': 'babel-jest'
+    },
+    moduleNameMapper: {
+      '^.+\\.svg$': 'jest-svg-transformer'
     }
   }
 }
