@@ -1,4 +1,4 @@
-import { Component, Host, Prop, State, Watch, forceUpdate, h } from '@stencil/core'
+import { Component, Host, Prop, State, h } from '@stencil/core'
 import { createRouter, href, match, Route } from 'stencil-router-v2'
 
 import addIcon from '@shoelace-style/shoelace/dist/assets/icons/person-plus-fill.svg'
@@ -263,10 +263,10 @@ export class XskribaXbublavyReservationApp {
             {this.selectedAmbulance && (
               <Route
                 path={match('/ambulance/:userId', { exact: true, strict: true })}
-                render={() => (
+                render={({ userId }) => (
                   <xskriba-xbublavy-ambulance-create
                     api-base={this.apiBase}
-                    user-id={this.selectedAmbulance?.id}
+                    user-id={this.selectedAmbulance?.id || userId}
                     onAmbulanceDeleted={() => this.handleAmbulanceDeleted()}
                   />
                 )}
@@ -322,10 +322,10 @@ export class XskribaXbublavyReservationApp {
             {this.selectedPatient && (
               <Route
                 path={match('/patient/:userId', { exact: true, strict: true })}
-                render={() => (
+                render={({ userId }) => (
                   <xskriba-xbublavy-patient-create
                     api-base={this.apiBase}
-                    user-id={this.selectedPatient?.id}
+                    user-id={this.selectedPatient?.id || userId}
                     onPatientDeleted={() => this.handlePatientDeleted()}
                   />
                 )}
