@@ -36,6 +36,7 @@ export class XskribaXbublavyReservationApp {
 
   @State() private selectedAmbulance: Ambulance | null = null
   @State() private selectedPatient: Patient | null = null
+  @State() private selectedReservationId: Reservation['id'] | null = null
 
   private async getAmbulances(): Promise<Ambulance[]> {
     try {
@@ -208,6 +209,31 @@ export class XskribaXbublavyReservationApp {
         </header>
 
         <main>
+          {(this.selectedAmbulance || this.selectedPatient) && (
+            <sl-drawer
+              label="Reservation Detail"
+              open={this.selectedReservationId}
+              on-sl-hide={() => this.handleCloseReservationDetail()}
+            >
+              {this.selectedReservationId && (
+                <xskriba-xbublavy-reservation-detail
+                  api-base={this.apiBase}
+                  ambulance-reservation-id={this.selectedAmbulance?.id}
+                  patient-reservation-id={this.selectedPatient?.id}
+                  reservation-id={this.selectedReservationId}
+                ></xskriba-xbublavy-reservation-detail>
+              )}
+
+              <sl-button
+                slot="footer"
+                variant="primary"
+                onclick={() => this.handleCloseReservationDetail()}
+              >
+                Close
+              </sl-button>
+            </sl-drawer>
+          )}
+
           <Router.Switch>
             {!this.selectedAmbulance && !this.selectedPatient ? (
               <Route
@@ -235,17 +261,6 @@ export class XskribaXbublavyReservationApp {
             )}
 
             {/* AMBULANCE ROUTES */}
-            {this.selectedAmbulance && (
-              <Route
-                path={match('/ambulance/:userId/reservations/:id', { exact: true, strict: true })}
-                render={({ id }) => (
-                  <xskriba-xbublavy-reservation-detail
-                    api-base={this.apiBase}
-                    ambulance-reservation-id={id}
-                  />
-                )}
-              />
-            )}
             {this.selectedAmbulance && (
               <Route
                 path={match('/ambulance/:userId/reservations', { exact: true, strict: true })}
@@ -290,17 +305,6 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-reservation-create
                     api-base={this.apiBase}
                     patient={this.selectedPatient}
-                  />
-                )}
-              />
-            )}
-            {this.selectedPatient && (
-              <Route
-                path={match('/patient/:userId/reservations/:id', { exact: true, strict: true })}
-                render={({ id }) => (
-                  <xskriba-xbublavy-reservation-detail
-                    api-base={this.apiBase}
-                    patient-reservation-id={id}
                   />
                 )}
               />
@@ -381,13 +385,10 @@ export class XskribaXbublavyReservationApp {
 
   /* RESERVATION */
   private handleReservationEventClicked(reservationId: Reservation['id']) {
-    const name = this.selectedAmbulance ? 'ambulance' : this.selectedPatient ? 'patient' : null
-    const userId = this.selectedAmbulance
-      ? this.selectedAmbulance.id
-      : this.selectedPatient
-      ? this.selectedPatient.id
-      : null
-    if (!name || !userId) throw new Error('Invalid user type')
-    Router.push(`/${name}/${userId}/reservations/${reservationId}`)
+    this.selectedReservationId = reservationId
+  }
+
+  private handleCloseReservationDetail() {
+    this.selectedReservationId = null
   }
 }

@@ -28,9 +28,10 @@ export namespace Components {
         "patient": Patient | null;
     }
     interface XskribaXbublavyReservationDetail {
-        "ambulanceReservationId": string;
+        "ambulanceReservationId": string | null;
         "apiBase": string;
-        "patientReservationId": string;
+        "patientReservationId": string | null;
+        "reservationId": string;
     }
     interface XskribaXbublavyReservationsList {
         "ambulance": Ambulance | null;
@@ -48,6 +49,10 @@ export interface XskribaXbublavyMainMenuCustomEvent<T> extends CustomEvent<T> {
 export interface XskribaXbublavyPatientCreateCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLXskribaXbublavyPatientCreateElement;
+}
+export interface XskribaXbublavyReservationDetailCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXskribaXbublavyReservationDetailElement;
 }
 export interface XskribaXbublavyReservationsListCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -120,7 +125,18 @@ declare global {
         prototype: HTMLXskribaXbublavyReservationCreateElement;
         new (): HTMLXskribaXbublavyReservationCreateElement;
     };
+    interface HTMLXskribaXbublavyReservationDetailElementEventMap {
+        "reservationDeleted": void;
+    }
     interface HTMLXskribaXbublavyReservationDetailElement extends Components.XskribaXbublavyReservationDetail, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXskribaXbublavyReservationDetailElementEventMap>(type: K, listener: (this: HTMLXskribaXbublavyReservationDetailElement, ev: XskribaXbublavyReservationDetailCustomEvent<HTMLXskribaXbublavyReservationDetailElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXskribaXbublavyReservationDetailElementEventMap>(type: K, listener: (this: HTMLXskribaXbublavyReservationDetailElement, ev: XskribaXbublavyReservationDetailCustomEvent<HTMLXskribaXbublavyReservationDetailElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLXskribaXbublavyReservationDetailElement: {
         prototype: HTMLXskribaXbublavyReservationDetailElement;
@@ -180,9 +196,11 @@ declare namespace LocalJSX {
         "patient"?: Patient | null;
     }
     interface XskribaXbublavyReservationDetail {
-        "ambulanceReservationId"?: string;
+        "ambulanceReservationId"?: string | null;
         "apiBase"?: string;
-        "patientReservationId"?: string;
+        "onReservationDeleted"?: (event: XskribaXbublavyReservationDetailCustomEvent<void>) => void;
+        "patientReservationId"?: string | null;
+        "reservationId"?: string;
     }
     interface XskribaXbublavyReservationsList {
         "ambulance"?: Ambulance | null;

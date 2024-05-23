@@ -124,6 +124,8 @@ export class XskribaXbublavyAmbulanceCreate {
   }
 
   private async handleDelete() {
+    this.isLoading = true
+
     try {
       if (this.userId) {
         await AmbulanceApiFactory(undefined, this.apiBase).deleteAmbulance(this.userId)

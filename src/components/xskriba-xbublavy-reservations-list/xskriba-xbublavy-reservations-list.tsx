@@ -67,6 +67,15 @@ export class XskribaXbublavyReservationsList {
           extendedProps: {
             test: 'test'
           }
+        },
+        {
+          id: 'b',
+          title: 'my event2',
+          start: '2024-05-23',
+          description: 'This is a cool event',
+          extendedProps: {
+            test: 'test'
+          }
         }
       ],
       eventClick: arg => this.handleReservationEventClick(arg),
