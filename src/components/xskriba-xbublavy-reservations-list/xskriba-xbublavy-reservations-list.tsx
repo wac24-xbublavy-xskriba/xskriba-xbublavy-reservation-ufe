@@ -1,13 +1,24 @@
-import { Component, Element, Host, Prop, h } from '@stencil/core'
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  Host,
+  Prop,
+  State,
+  Watch,
+  forceUpdate,
+  h
+} from '@stencil/core'
 import { href } from 'stencil-router-v2'
 
-import { Calendar } from '@fullcalendar/core'
+import { Calendar, EventClickArg, EventContentArg } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import { h as preactH } from '@fullcalendar/core/preact'
 
-import { Ambulance, Patient } from '../../api/reservation'
+import { Ambulance, Patient, Reservation } from '../../api/reservation'
 
 @Component({
   tag: 'xskriba-xbublavy-reservations-list',
@@ -20,15 +31,11 @@ export class XskribaXbublavyReservationsList {
   @Prop() ambulance: Ambulance | null
   @Prop() patient: Patient | null
 
-  calendar: Calendar
+  @State() calendar: Calendar
 
-  componentDidLoad() {
-    const calendarEl = this.host.shadowRoot?.getElementById('calendar')
-    if (!calendarEl) throw new Error('Calendar element not found')
-    this.initializeCalendar(calendarEl)
-  }
+  @Event() reservationEventClicked: EventEmitter<Reservation['id']>
 
-  initializeCalendar(calendarEl: HTMLElement) {
+  private initializeCalendar(calendarEl: HTMLElement) {
     this.calendar = new Calendar(calendarEl, {
       plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
       initialView: 'timeGridWeek',
@@ -39,6 +46,18 @@ export class XskribaXbublavyReservationsList {
       eventClassNames: ['event'],
       eventDisplay: 'block',
       displayEventTime: true,
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'timeGridWeek,dayGridMonth,listWeek'
+      },
+      businessHours: [
+        {
+          daysOfWeek: [1, 2, 3, 4, 5],
+          startTime: this.ambulance?.officeHours.open || undefined,
+          endTime: this.ambulance?.officeHours.close || undefined
+        }
+      ],
       events: [
         {
           id: 'a',
@@ -50,33 +69,38 @@ export class XskribaXbublavyReservationsList {
           }
         }
       ],
-      eventContent: arg => {
-        return preactH('div', {}, [
-          preactH('p', {}, arg.event.title),
-          preactH('i', {}, arg.event.extendedProps.description)
-        ])
-      },
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'timeGridWeek,dayGridMonth,listWeek'
-      },
-      businessHours: [
-        {
-          daysOfWeek: [1, 2, 3, 4, 5],
-          startTime: '08:00',
-          endTime: '16:00'
-        }
-      ]
+      eventClick: arg => this.handleReservationEventClick(arg),
+      eventContent: arg => this.getEventContent(arg)
     })
 
     this.calendar.render()
+  }
+
+  private createCalendar() {
+    const calendarEl = this.host.shadowRoot?.getElementById('calendar')
+    if (!calendarEl) throw new Error('Calendar element not found')
+    this.initializeCalendar(calendarEl)
+  }
+
+  private handleReservationEventClick(arg: EventClickArg) {
+    this.reservationEventClicked.emit(arg.event.id)
+  }
+
+  componentDidLoad() {
+    this.createCalendar()
   }
 
   disconnectedCallback() {
     if (this.calendar) {
       this.calendar.destroy()
     }
+  }
+
+  @Watch('patient')
+  @Watch('ambulance')
+  onUserChange() {
+    this.createCalendar()
+    forceUpdate(this)
   }
 
   render() {
@@ -102,5 +126,12 @@ export class XskribaXbublavyReservationsList {
         </section>
       </Host>
     )
+  }
+
+  private getEventContent(arg: EventContentArg) {
+    return preactH('div', {}, [
+      preactH('p', {}, arg.event.title),
+      preactH('i', {}, arg.event.extendedProps.description)
+    ])
   }
 }

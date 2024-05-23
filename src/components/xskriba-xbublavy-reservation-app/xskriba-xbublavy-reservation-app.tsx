@@ -1,4 +1,4 @@
-import { Component, Host, Prop, State, h } from '@stencil/core'
+import { Component, Host, Prop, State, Watch, forceUpdate, h } from '@stencil/core'
 import { createRouter, href, match, Route } from 'stencil-router-v2'
 
 import addIcon from '@shoelace-style/shoelace/dist/assets/icons/person-plus-fill.svg'
@@ -7,7 +7,13 @@ import ambulanceIcon from '@shoelace-style/shoelace/dist/assets/icons/hospital-f
 import patientIcon from '@shoelace-style/shoelace/dist/assets/icons/person-vcard-fill.svg'
 
 import { formatFullName } from '../../utils/utils'
-import { Ambulance, Patient, AmbulanceApiFactory, PatientApiFactory } from '../../api/reservation'
+import {
+  Ambulance,
+  Patient,
+  AmbulanceApiFactory,
+  PatientApiFactory,
+  Reservation
+} from '../../api/reservation'
 
 const Router = createRouter()
 
@@ -247,6 +253,9 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-reservations-list
                     api-base={this.apiBase}
                     ambulance={this.selectedAmbulance}
+                    onReservationEventClicked={reservation =>
+                      this.handleReservationEventClicked(reservation.detail)
+                    }
                   />
                 )}
               />
@@ -254,14 +263,23 @@ export class XskribaXbublavyReservationApp {
             {this.selectedAmbulance && (
               <Route
                 path={match('/ambulance/:userId', { exact: true, strict: true })}
-                render={({ userId }) => (
-                  <xskriba-xbublavy-ambulance-create api-base={this.apiBase} user-id={userId} />
+                render={() => (
+                  <xskriba-xbublavy-ambulance-create
+                    api-base={this.apiBase}
+                    user-id={this.selectedAmbulance?.id}
+                    onAmbulanceDeleted={() => this.handleAmbulanceDeleted()}
+                  />
                 )}
               />
             )}
             <Route
               path="/ambulance"
-              render={() => <xskriba-xbublavy-ambulance-create api-base={this.apiBase} />}
+              render={() => (
+                <xskriba-xbublavy-ambulance-create
+                  api-base={this.apiBase}
+                  onAmbulanceCreated={ambulance => this.handleAmbulanceCreated(ambulance.detail)}
+                />
+              )}
             />
 
             {/* PATIENT ROUTES */}
@@ -294,6 +312,9 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-reservations-list
                     api-base={this.apiBase}
                     patient={this.selectedPatient}
+                    onReservationEventClicked={reservation =>
+                      this.handleReservationEventClicked(reservation.detail)
+                    }
                   />
                 )}
               />
@@ -301,14 +322,23 @@ export class XskribaXbublavyReservationApp {
             {this.selectedPatient && (
               <Route
                 path={match('/patient/:userId', { exact: true, strict: true })}
-                render={({ userId }) => (
-                  <xskriba-xbublavy-patient-create api-base={this.apiBase} user-id={userId} />
+                render={() => (
+                  <xskriba-xbublavy-patient-create
+                    api-base={this.apiBase}
+                    user-id={this.selectedPatient?.id}
+                    onPatientDeleted={() => this.handlePatientDeleted()}
+                  />
                 )}
               />
             )}
             <Route
               path="/patient"
-              render={() => <xskriba-xbublavy-patient-create api-base={this.apiBase} />}
+              render={() => (
+                <xskriba-xbublavy-patient-create
+                  api-base={this.apiBase}
+                  onPatientCreated={patient => this.handlePatientCreated(patient.detail)}
+                />
+              )}
             />
 
             {/* REDIRECT */}
@@ -317,5 +347,47 @@ export class XskribaXbublavyReservationApp {
         </main>
       </Host>
     )
+  }
+
+  /* AMBULANCE */
+
+  private async handleAmbulanceCreated(ambulance: Ambulance) {
+    this.ambulances = await this.getAmbulances()
+    this.handleSelectAmbulance(ambulance)
+    Router.push(`/ambulance/${ambulance.id}/reservations`)
+  }
+
+  private async handleAmbulanceDeleted() {
+    this.ambulances = await this.getAmbulances()
+    this.selectedAmbulance = null
+    this.selectedPatient = null
+    Router.push('/')
+  }
+
+  /* PATIENT */
+
+  private async handlePatientCreated(patient: Patient) {
+    this.patients = await this.getPatients()
+    this.handleSelectPatient(patient)
+    Router.push(`/patient/${patient.id}/reservations`)
+  }
+
+  private async handlePatientDeleted() {
+    this.patients = await this.getPatients()
+    this.selectedAmbulance = null
+    this.selectedPatient = null
+    Router.push('/')
+  }
+
+  /* RESERVATION */
+  private handleReservationEventClicked(reservationId: Reservation['id']) {
+    const name = this.selectedAmbulance ? 'ambulance' : this.selectedPatient ? 'patient' : null
+    const userId = this.selectedAmbulance
+      ? this.selectedAmbulance.id
+      : this.selectedPatient
+      ? this.selectedPatient.id
+      : null
+    if (!name || !userId) throw new Error('Invalid user type')
+    Router.push(`/${name}/${userId}/reservations/${reservationId}`)
   }
 }

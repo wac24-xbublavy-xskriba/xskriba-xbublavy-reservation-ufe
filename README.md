@@ -15,11 +15,12 @@ Objednávací systém na základe požiadavky pacienta, vysielajúceho, alebo od
 
 ## Use case #2
 
-- [ ] (CREATE) Ako ambulacia chcem mať možnosť vytvoriť ambulanciu s potrebnými parametrami.
-- [ ] (UPDATE) Ako ambulacia chcem mať možnosť upraviť parametre ambulancie.
-- [ ] (DELETE) Ako ambulancia chcem mať možnosť odstrániť ambulanciu.
-- [ ] (CREATE) Ako pacient chcem mať možnosť si vytvoriť profil.
-- [ ] (UPDATE) Ako pacient chcem mať možnosť upraviť svoj profil.
+- [x] (CREATE) Ako ambulacia chcem mať možnosť vytvoriť ambulanciu s potrebnými parametrami.
+- [x] (UPDATE) Ako ambulacia chcem mať možnosť upraviť parametre ambulancie.
+- [x] (DELETE) Ako ambulancia chcem mať možnosť odstrániť ambulanciu.
+- [x] (CREATE) Ako pacient chcem mať možnosť si vytvoriť profil.
+- [x] (UPDATE) Ako pacient chcem mať možnosť upraviť svoj profil.
+- [x] (DELETE) Ako pacient chcem mať možnosť odstrániť svoj profil.
 - [ ] (READ) Ako pacient chcem mať možnosť vidieť svoje žiadosti a termíny vyšetrení.
 
 ## 30 points
