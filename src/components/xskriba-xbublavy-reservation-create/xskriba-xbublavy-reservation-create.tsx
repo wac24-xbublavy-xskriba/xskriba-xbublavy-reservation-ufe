@@ -15,17 +15,20 @@ import { z } from 'zod'
 import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.svg'
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 
-import { MedicalExaminations, Patient, Reservation } from '../../api/reservation'
+import {
+  Examination,
+  MedicalExaminations,
+  Patient,
+  PatientApiFactory,
+  Reservation
+} from '../../api/reservation'
 import dayjs from 'dayjs'
 import { EXAMINATION_TYPE } from '../../global/constants'
 
 const schema = z.object({
   date: z.string({ required_error: 'Date is required' }).refine(
     date => {
-      console.log('date', date)
-      const now = new Date()
-      const selected = new Date(date)
-      return selected >= now
+      return dayjs(date).endOf('day').isAfter(dayjs().startOf('day'))
     },
     {
       message: 'Date must be in the future'
@@ -60,6 +63,8 @@ export class XskribaXbublavyReservationCreate {
   @State() errors: Partial<Record<keyof FormData, string>> = {}
   @State() entry: Partial<FormData> = defaultRequest
 
+  @State() examinations: Examination[] = []
+
   @Event() reservationCreated: EventEmitter<Reservation>
 
   private validateField<TName extends keyof FormData>(name: TName, value: FormData[TName]) {
@@ -83,7 +88,23 @@ export class XskribaXbublavyReservationCreate {
 
   private async handleSubmit(event: Event) {
     event.preventDefault()
-    console.log('submit', this.entry)
+    this.isLoading = true
+
+    if (!this.patient) return
+
+    try {
+      const data = schema.parse(this.entry)
+      const api = PatientApiFactory(undefined, this.apiBase)
+
+      const result = await api.requestExamination(this.patient.id, data)
+
+      this.examinations = result.data
+    } catch (err) {
+      console.error(err.message)
+      this.globalError = 'An error occurred while creating the ambulance. Please try again.'
+    } finally {
+      this.isLoading = false
+    }
   }
 
   @Watch('patient')
@@ -96,6 +117,8 @@ export class XskribaXbublavyReservationCreate {
       Object.values(this.errors).every(error => !error) &&
       this.entry.date &&
       this.entry.examinationType
+
+    console.log(this.examinations)
 
     return (
       <Host>

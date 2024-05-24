@@ -5,16 +5,18 @@ import addIcon from '@shoelace-style/shoelace/dist/assets/icons/person-plus-fill
 import homeIcon from '@shoelace-style/shoelace/dist/assets/icons/house-fill.svg'
 import ambulanceIcon from '@shoelace-style/shoelace/dist/assets/icons/hospital-fill.svg'
 import patientIcon from '@shoelace-style/shoelace/dist/assets/icons/person-vcard-fill.svg'
+import successIcon from '@shoelace-style/shoelace/dist/assets/icons/check2-circle.svg'
+import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 
 import { formatFullName } from '../../utils/utils'
 import { Ambulance, Patient, AmbulanceApiFactory, PatientApiFactory } from '../../api/reservation'
 
 const Router = createRouter()
 
-declare global {
-  interface Window {
-    navigation: any
-  }
+export type Toast = {
+  message: string
+  description?: string
+  variant: 'success' | 'danger'
 }
 
 @Component({
@@ -24,6 +26,8 @@ declare global {
 })
 export class XskribaXbublavyReservationApp {
   @Prop() apiBase: string
+
+  @State() private toast: Toast | null = null
 
   @State() private ambulances: Ambulance[] = []
   @State() private patients: Patient[] = []
@@ -96,6 +100,23 @@ export class XskribaXbublavyReservationApp {
 
     return (
       <Host>
+        <sl-alert
+          closable
+          duration={3000}
+          open={this.toast}
+          variant={this.toast?.variant}
+          sl-after-hide={() => this.handleToastHide()}
+        >
+          <sl-icon
+            slot="icon"
+            src={this.toast?.variant === 'success' ? successIcon : dangerIcon}
+          ></sl-icon>
+
+          <strong>{this.toast?.message}</strong>
+
+          {this.toast?.description && <p>{this.toast?.description}</p>}
+        </sl-alert>
+
         <header>
           <div class="header_left">
             <h1>Ambulance Reservation System</h1>
@@ -236,6 +257,12 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-reservations-list
                     api-base={this.apiBase}
                     ambulance={this.selectedAmbulance}
+                    onReservationUpdated={() =>
+                      this.handleToastShow({ message: 'Reservation updated', variant: 'success' })
+                    }
+                    onReservationDeleted={() =>
+                      this.handleToastShow({ message: 'Reservation deleted', variant: 'success' })
+                    }
                   />
                 )}
               />
@@ -247,7 +274,10 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-ambulance-create
                     api-base={this.apiBase}
                     user-id={this.selectedAmbulance?.id || userId}
-                    onAmbulanceDeleted={() => this.handleAmbulanceDeleted()}
+                    onAmbulanceDeleted={ambulanceName =>
+                      this.handleAmbulanceDeleted(ambulanceName.detail)
+                    }
+                    onAmbulanceUpdated={ambulance => this.handleAmbulanceUpdated(ambulance.detail)}
                   />
                 )}
               />
@@ -281,6 +311,12 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-reservations-list
                     api-base={this.apiBase}
                     patient={this.selectedPatient}
+                    onReservationUpdated={() =>
+                      this.handleToastShow({ message: 'Reservation updated', variant: 'success' })
+                    }
+                    onReservationDeleted={() =>
+                      this.handleToastShow({ message: 'Reservation deleted', variant: 'success' })
+                    }
                   />
                 )}
               />
@@ -292,7 +328,8 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-patient-create
                     api-base={this.apiBase}
                     user-id={this.selectedPatient?.id || userId}
-                    onPatientDeleted={() => this.handlePatientDeleted()}
+                    onPatientDeleted={patientName => this.handlePatientDeleted(patientName.detail)}
+                    onPatientUpdated={patient => this.handlePatientUpdated(patient.detail)}
                   />
                 )}
               />
@@ -321,13 +358,28 @@ export class XskribaXbublavyReservationApp {
     this.ambulances = await this.getAmbulances()
     this.handleSelectAmbulance(ambulance)
     Router.push(`/ambulance/${ambulance.id}/reservations`)
+    this.handleToastShow({
+      message: `Ambulance ${ambulance.name} created`,
+      variant: 'success'
+    })
   }
 
-  private async handleAmbulanceDeleted() {
+  private async handleAmbulanceUpdated(ambulance: Ambulance) {
+    this.handleToastShow({
+      message: `Ambulance ${ambulance.name} updated`,
+      variant: 'success'
+    })
+  }
+
+  private async handleAmbulanceDeleted(ambulanceName: Ambulance['name']) {
     this.ambulances = await this.getAmbulances()
     this.selectedAmbulance = null
     this.selectedPatient = null
     Router.push('/')
+    this.handleToastShow({
+      message: `Ambulance ${ambulanceName} deleted`,
+      variant: 'success'
+    })
   }
 
   /* PATIENT */
@@ -336,12 +388,36 @@ export class XskribaXbublavyReservationApp {
     this.patients = await this.getPatients()
     this.handleSelectPatient(patient)
     Router.push(`/patient/${patient.id}/reservations`)
+    this.handleToastShow({
+      message: `Patient ${formatFullName(patient.firstName, patient.lastName)} created`,
+      variant: 'success'
+    })
   }
 
-  private async handlePatientDeleted() {
+  private async handlePatientUpdated(patient: Patient) {
+    this.handleToastShow({
+      message: `Patient ${formatFullName(patient.firstName, patient.lastName)} updated`,
+      variant: 'success'
+    })
+  }
+
+  private async handlePatientDeleted(patientName: string) {
     this.patients = await this.getPatients()
     this.selectedAmbulance = null
     this.selectedPatient = null
     Router.push('/')
+    this.handleToastShow({
+      message: `Patient ${patientName} deleted`,
+      variant: 'success'
+    })
+  }
+
+  /* TOAST */
+  private handleToastHide() {
+    this.toast = null
+  }
+
+  private handleToastShow(toast: Toast) {
+    this.toast = toast
   }
 }

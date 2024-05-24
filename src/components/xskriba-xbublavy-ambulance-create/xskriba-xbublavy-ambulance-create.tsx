@@ -16,8 +16,6 @@ import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.sv
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.svg'
 
-// TODO: toast success
-
 import { AmbulanceApiFactory, MedicalExaminations, type Ambulance } from '../../api/reservation'
 import { isValidTimeBefore } from '../../utils/utils'
 import { EXAMINATION_TYPE, TIME_REGEX } from '../../global/constants'
@@ -68,7 +66,8 @@ export class XskribaXbublavyAmbulanceCreate {
   @State() entry: Partial<FormData> = defaultAmbulance
 
   @Event() ambulanceCreated: EventEmitter<Ambulance>
-  @Event() ambulanceDeleted: EventEmitter<void>
+  @Event() ambulanceUpdated: EventEmitter<Ambulance>
+  @Event() ambulanceDeleted: EventEmitter<string>
 
   private validateField<TName extends keyof FormData>(name: TName, value: FormData[TName]) {
     try {
@@ -115,6 +114,10 @@ export class XskribaXbublavyAmbulanceCreate {
       if (!this.userId) {
         this.ambulanceCreated.emit(result.data)
       }
+
+      if (this.userId) {
+        this.ambulanceUpdated.emit(result.data)
+      }
     } catch (e) {
       console.error(e)
       this.globalError = 'An error occurred while creating the ambulance. Please try again.'
@@ -129,7 +132,7 @@ export class XskribaXbublavyAmbulanceCreate {
     try {
       if (this.userId) {
         await AmbulanceApiFactory(undefined, this.apiBase).deleteAmbulance(this.userId)
-        this.ambulanceDeleted.emit()
+        this.ambulanceDeleted.emit(this.entry.name)
         this.isDeleteDialogOpen = false
       }
     } catch (e) {

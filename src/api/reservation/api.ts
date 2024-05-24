@@ -1285,7 +1285,7 @@ export const PatientApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async requestExamination(patientId: string, requestExaminationRequest: RequestExaminationRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Examination>> {
+        async requestExamination(patientId: string, requestExaminationRequest: RequestExaminationRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Examination>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.requestExamination(patientId, requestExaminationRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1379,7 +1379,7 @@ export const PatientApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        requestExamination(patientId: string, requestExaminationRequest: RequestExaminationRequest, options?: any): AxiosPromise<Examination> {
+        requestExamination(patientId: string, requestExaminationRequest: RequestExaminationRequest, options?: any): AxiosPromise<Array<Examination>> {
             return localVarFp.requestExamination(patientId, requestExaminationRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1471,7 +1471,7 @@ export interface PatientApiInterface {
      * @throws {RequiredError}
      * @memberof PatientApiInterface
      */
-    requestExamination(patientId: string, requestExaminationRequest: RequestExaminationRequest, options?: AxiosRequestConfig): AxiosPromise<Examination>;
+    requestExamination(patientId: string, requestExaminationRequest: RequestExaminationRequest, options?: AxiosRequestConfig): AxiosPromise<Array<Examination>>;
 
     /**
      * 

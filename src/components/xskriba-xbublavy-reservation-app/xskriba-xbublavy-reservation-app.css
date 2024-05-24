@@ -8,6 +8,13 @@
   height: 100vh;
 }
 
+sl-alert::part(base) {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 30;
+}
+
 .drawer {
   z-index: 6;
 }

@@ -1,4 +1,15 @@
-import { Component, Element, Host, Prop, State, Watch, forceUpdate, h } from '@stencil/core'
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  Host,
+  Prop,
+  State,
+  Watch,
+  forceUpdate,
+  h
+} from '@stencil/core'
 import { href } from 'stencil-router-v2'
 
 import { Calendar, EventClickArg, EventContentArg } from '@fullcalendar/core'
@@ -31,8 +42,10 @@ export class XskribaXbublavyReservationsList {
 
   @State() reservations: Reservation[] = []
   @State() calendar: Calendar
-
   @State() private selectedReservationId: Reservation['id'] | null = null
+
+  @Event() reservationUpdated: EventEmitter<void>
+  @Event() reservationDeleted: EventEmitter<void>
 
   private initializeCalendar(calendarEl: HTMLElement) {
     this.calendar = new Calendar(calendarEl, {
@@ -154,6 +167,7 @@ export class XskribaXbublavyReservationsList {
                 patient-reservation-id={this.patient?.id}
                 reservation-id={this.selectedReservationId}
                 onReservationDeleted={() => this.handleReservationDeleted()}
+                onReservationUpdated={() => this.reservationUpdated.emit()}
               ></xskriba-xbublavy-reservation-detail>
             )}
 
@@ -206,5 +220,6 @@ export class XskribaXbublavyReservationsList {
     this.reservations = await this.getReservations()
     this.addEvents(this.reservations)
     forceUpdate(this)
+    this.reservationDeleted.emit()
   }
 }

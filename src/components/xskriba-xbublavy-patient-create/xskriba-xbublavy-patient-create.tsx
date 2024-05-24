@@ -59,7 +59,8 @@ export class XskribaXbublavyPatientCreate {
   @State() entry: Partial<Patient> = defaultPatient
 
   @Event() patientCreated: EventEmitter<Patient>
-  @Event() patientDeleted: EventEmitter<void>
+  @Event() patientUpdated: EventEmitter<Patient>
+  @Event() patientDeleted: EventEmitter<string>
 
   private validateField<TName extends keyof Patient>(name: TName, value: Patient[TName]) {
     try {
@@ -98,6 +99,10 @@ export class XskribaXbublavyPatientCreate {
       if (!this.userId) {
         this.patientCreated.emit(result.data)
       }
+
+      if (this.userId) {
+        this.patientUpdated.emit(result.data)
+      }
     } catch (e) {
       console.error(e)
       this.globalError = 'An error occurred while creating the patient. Please try again.'
@@ -112,7 +117,7 @@ export class XskribaXbublavyPatientCreate {
     try {
       if (this.userId) {
         await PatientApiFactory(undefined, this.apiBase).deletePatient(this.userId)
-        this.patientDeleted.emit()
+        this.patientDeleted.emit(formatFullName(this.entry.firstName, this.entry.lastName))
         this.isDeleteDialogOpen = false
       }
     } catch (e) {

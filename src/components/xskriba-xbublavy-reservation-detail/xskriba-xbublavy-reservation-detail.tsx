@@ -52,6 +52,7 @@ export class XskribaXbublavyReservationDetail {
   @State() entry: Partial<Reservation> = defaultReservation
 
   @Event() reservationDeleted: EventEmitter<void>
+  @Event() reservationUpdated: EventEmitter<void>
 
   private validateField<TName extends keyof FormData>(name: TName, value: FormData[TName]) {
     try {
@@ -86,6 +87,8 @@ export class XskribaXbublavyReservationDetail {
       await api.updateReservation(this.reservation.id, { ...this.reservation, ...data })
 
       await this.reloadReservation()
+
+      this.reservationUpdated.emit()
     } catch (err) {
       console.error(err.message)
       this.globalError = 'An error occurred while creating the ambulance. Please try again.'
