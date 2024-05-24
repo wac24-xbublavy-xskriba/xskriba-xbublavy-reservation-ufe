@@ -149,7 +149,7 @@ paths:
               properties:
                 date:
                   type: string
-                  format: date-time
+                  format: date
                 examinationType:
                   $ref: '#/components/schemas/MedicalExaminations'
               required:
@@ -400,7 +400,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReservationInput'
+              type: object
+              properties:
+                message:
+                  type: string
+                  maxLength: 200
         required: true
       responses:
         '200':
@@ -500,7 +504,7 @@ components:
           format: time
     MedicalExaminations:
       type: string
-      enum: ['X-ray', 'MRI', 'CT', 'Ultrasound', 'Blood Test']
+      enum: ['x_ray', 'mri', 'ct', 'ultrasound', 'blood_test']
     Ambulance:
       type: object
       required:
@@ -599,13 +603,20 @@ components:
     ReservationInput:
       type: object
       required:
-        - ambulance
+        - ambulanceId
         - start
         - end
         - examinationType
       properties:
-        ambulance:
-          $ref: '#/components/schemas/Ambulance'
+        id:
+          type: string
+          format: uuid
+        ambulanceId:
+          type: string
+          format: uuid
+        patientId:
+          type: string
+          format: uuid
         start:
           type: string
           format: date-time

@@ -20,6 +20,7 @@ import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.sv
 
 import { PatientApiFactory, Sex, type Patient } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
+import { SEX_TYPE } from '../../global/constants'
 
 const schema = z.object({
   id: z.string().optional(),
@@ -259,7 +260,7 @@ export class XskribaXbublavyPatientCreate {
                 required
               >
                 {Object.values(Sex).map(sex => (
-                  <sl-option value={sex}>{sex}</sl-option>
+                  <sl-option value={sex}>{SEX_TYPE[sex]}</sl-option>
                 ))}
               </sl-select>
             </div>

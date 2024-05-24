@@ -18,3 +18,17 @@ header h2 {
   font-size: 28px;
   margin: 0;
 }
+
+.event {
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.event span {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}

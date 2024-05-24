@@ -16,6 +16,8 @@ import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.sv
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 
 import { MedicalExaminations, Patient, Reservation } from '../../api/reservation'
+import dayjs from 'dayjs'
+import { EXAMINATION_TYPE } from '../../global/constants'
 
 const schema = z.object({
   date: z.string({ required_error: 'Date is required' }).refine(
@@ -38,7 +40,7 @@ const schema = z.object({
 export type FormData = z.input<typeof schema>
 
 const defaultRequest: Partial<FormData> = {
-  date: new Date(new Date().setHours(new Date().getHours() + 3)).toISOString().slice(0, 16),
+  date: dayjs().format('YYYY-MM-DD'),
   examinationType: undefined
 }
 
@@ -112,9 +114,9 @@ export class XskribaXbublavyReservationCreate {
 
             <form onSubmit={event => this.handleSubmit(event)} class="validity-styles">
               <sl-input
-                type="datetime-local"
+                type="date"
                 name="date"
-                label="Date and Time"
+                label="Date"
                 value={this.entry?.date}
                 on-sl-input={event => this.handleInput(event)}
                 help-text={this.errors?.date}
@@ -133,7 +135,7 @@ export class XskribaXbublavyReservationCreate {
                 required
               >
                 {Object.values(MedicalExaminations).map(examination => (
-                  <sl-option value={examination}>{examination}</sl-option>
+                  <sl-option value={examination}>{EXAMINATION_TYPE[examination]}</sl-option>
                 ))}
               </sl-select>
 

@@ -20,7 +20,7 @@ import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.sv
 
 import { AmbulanceApiFactory, MedicalExaminations, type Ambulance } from '../../api/reservation'
 import { isValidTimeBefore } from '../../utils/utils'
-import { TIME_REGEX } from '../../global/constants'
+import { EXAMINATION_TYPE, TIME_REGEX } from '../../global/constants'
 
 const schema = z.object({
   id: z.string().optional(),
@@ -267,7 +267,7 @@ export class XskribaXbublavyAmbulanceCreate {
               multiple
             >
               {Object.values(MedicalExaminations).map(examination => (
-                <sl-option value={examination}>{examination}</sl-option>
+                <sl-option value={examination}>{EXAMINATION_TYPE[examination]}</sl-option>
               ))}
             </sl-select>
 

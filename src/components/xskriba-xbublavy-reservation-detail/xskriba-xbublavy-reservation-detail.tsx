@@ -10,12 +10,17 @@ import {
   h
 } from '@stencil/core'
 import { z } from 'zod'
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.svg'
 
 import { ReservationApiFactory, Reservation, ReservationInput } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
+import { EXAMINATION_TYPE, SEX_TYPE } from '../../global/constants'
+
+dayjs.extend(localizedFormat)
 
 const schema = z.object({
   message: z.string().optional()
@@ -43,31 +48,7 @@ export class XskribaXbublavyReservationDetail {
   @State() isValid: boolean = false
   @State() globalError: string | null = null
   @State() errors: Partial<Record<keyof FormData, string>> = {}
-  @State() reservation: Reservation | null = {
-    id: '1',
-    patient: {
-      id: '1',
-      firstName: 'test',
-      lastName: 'test',
-      birthday: '2021-08-24',
-      sex: 'male',
-      bio: 'test'
-    },
-    ambulance: {
-      id: '1',
-      name: 'test',
-      address: 'test',
-      medicalExaminations: ['X-ray'],
-      officeHours: {
-        open: '09:00',
-        close: '13:00'
-      }
-    },
-    message: 'test message',
-    start: new Date().toISOString(),
-    end: new Date().toISOString(),
-    examinationType: 'X-ray'
-  }
+  @State() reservation: Reservation | null = null
   @State() entry: Partial<Reservation> = defaultReservation
 
   @Event() reservationDeleted: EventEmitter<void>
@@ -102,7 +83,7 @@ export class XskribaXbublavyReservationDetail {
       const data = schema.parse(this.entry)
       const api = ReservationApiFactory(undefined, this.apiBase)
 
-      await api.updateReservation(this.patientReservationId, { ...this.reservation, ...data })
+      await api.updateReservation(this.reservation.id, { ...this.reservation, ...data })
 
       await this.reloadReservation()
     } catch (err) {
@@ -160,6 +141,8 @@ export class XskribaXbublavyReservationDetail {
     await this.reloadReservation()
   }
 
+  @Watch('patientReservationId')
+  @Watch('ambulanceReservationId')
   @Watch('reservationId')
   async onReservationChange() {
     await this.reloadReservation()
@@ -214,9 +197,7 @@ export class XskribaXbublavyReservationDetail {
 
               {this.ambulanceReservationId && (
                 <sl-tag size="small" class="date">
-                  <sl-format-date month="long" day="numeric" year="numeric">
-                    {this.reservation.patient.birthday}
-                  </sl-format-date>
+                  {dayjs(this.reservation.patient.birthday).format('LL')}
                 </sl-tag>
               )}
 
@@ -224,7 +205,7 @@ export class XskribaXbublavyReservationDetail {
 
               {this.ambulanceReservationId && (
                 <sl-tag variant="success" size="small" class="date">
-                  {this.reservation.patient.sex}
+                  {SEX_TYPE[this.reservation.patient.sex]}
                 </sl-tag>
               )}
 
@@ -243,24 +224,16 @@ export class XskribaXbublavyReservationDetail {
           <div class="reservation">
             <small>from:</small>
             <sl-tag variant="primary" size="large" class="date">
-              <sl-format-date month="long" day="numeric" year="numeric">
-                {this.reservation.start}
-              </sl-format-date>
+              {dayjs(this.reservation.start).format('LL')}
               <small>-</small>
-              <sl-format-date hour="numeric" minute="numeric">
-                {this.reservation.start}
-              </sl-format-date>
+              {dayjs(this.reservation.start).format('LT')}
             </sl-tag>
 
             <small>to:</small>
             <sl-tag variant="primary" size="large" class="date">
-              <sl-format-date month="long" day="numeric" year="numeric">
-                {this.reservation.end}
-              </sl-format-date>
+              {dayjs(this.reservation.end).format('LL')}
               <small>-</small>
-              <sl-format-date hour="numeric" minute="numeric">
-                {this.reservation.end}
-              </sl-format-date>
+              {dayjs(this.reservation.end).format('LT')}
             </sl-tag>
           </div>
 
@@ -269,7 +242,7 @@ export class XskribaXbublavyReservationDetail {
           <div class="reservation">
             <small>Examination:</small>
             <sl-tag variant="success" class="date">
-              {this.reservation.examinationType}
+              {EXAMINATION_TYPE[this.reservation.examinationType]}
             </sl-tag>
           </div>
         </sl-card>

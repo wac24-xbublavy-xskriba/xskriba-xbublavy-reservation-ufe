@@ -5,7 +5,6 @@ Objednávací systém na základe požiadavky pacienta, vysielajúceho, alebo od
 ## Use case #1
 
 - [ ] (CREATE) Ako pacient chcem mať možnosť vytvoriť požiadavku na vyšetrenie na základe typu potrebného vyšetrenia.
-- [ ] (CREATE) Ako vysielajúci alebo odborný lekár chcem mať možnosť vytvoriť požiadavku na vyšetrenie na základe typu potrebného vyšetrenia a priradiť pacienta a prioritu do požiadavky.
 - [ ] (READ) Ako pacientovi mi systém na základe požiadavky ponúkne ambulancie a voľné termíny.
 - [ ] (CREATE) Ako pacient môžem potvrdiť alebo zamietnuť ponúknuté termíny.
 - [ ] (READ) Ako ambulancia chcem vidieť, ktorí pacienti čakajú na vyšetrenie.
@@ -29,8 +28,8 @@ Objednávací systém na základe požiadavky pacienta, vysielajúceho, alebo od
   - [ ] Funkčnosť (podľa počtu študentov priradených k práci)
   - [ ] CRUD operácie
   - [ ] error handling/okrajové prípady použitia
-  - [ ] dizajn (material komponenty)
-  - [ ] web komponent - čitateľnosť kódu
+  - [x] dizajn (material komponenty)
+  - [x] web komponent - čitateľnosť kódu
 - [ ] Go back-end: 6 bodov
   - [ ] API špecifikácia(swagger) - existencia a zmysluplnosť [https://editor.swagger.io/](https://editor.swagger.io/)
   - [ ] implementácia (CRUD)
@@ -39,9 +38,9 @@ Objednávací systém na základe požiadavky pacienta, vysielajúceho, alebo od
   - [ ] Konfigurácia
   - [ ] Databáza
   - [ ] error handling
-- [ ] Rozšírenie funkčnosti: 4 body
-  - [ ] Extra web element, použite iného Material elementu
-  - [ ] usecase má inú "mechaniku" ako ukážka zo skrípt
+- [x] Rozšírenie funkčnosti: 4 body
+  - [x] Extra web element, použite iného Material elementu
+  - [x] usecase má inú "mechaniku" ako ukážka zo skrípt
 - [ ] Nasadenie na Azure (FE): 3 body
   - [ ] stránka funguje
 - [ ] Nasadenie do spoločného klastra na Azure – 5 bodov

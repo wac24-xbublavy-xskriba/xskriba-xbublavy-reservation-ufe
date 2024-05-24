@@ -131,11 +131,11 @@ export interface Examination {
  */
 
 export const MedicalExaminations = {
-    XRay: 'X-ray',
-    Mri: 'MRI',
-    Ct: 'CT',
-    Ultrasound: 'Ultrasound',
-    BloodTest: 'Blood Test'
+    XRay: 'x_ray',
+    Mri: 'mri',
+    Ct: 'ct',
+    Ultrasound: 'ultrasound',
+    BloodTest: 'blood_test'
 } as const;
 
 export type MedicalExaminations = typeof MedicalExaminations[keyof typeof MedicalExaminations];
@@ -324,10 +324,22 @@ export interface Reservation {
 export interface ReservationInput {
     /**
      * 
-     * @type {Ambulance}
+     * @type {string}
      * @memberof ReservationInput
      */
-    'ambulance': Ambulance;
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReservationInput
+     */
+    'ambulanceId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReservationInput
+     */
+    'patientId'?: string;
     /**
      * 
      * @type {string}
@@ -369,6 +381,19 @@ export const Sex = {
 export type Sex = typeof Sex[keyof typeof Sex];
 
 
+/**
+ * 
+ * @export
+ * @interface UpdateReservationRequest
+ */
+export interface UpdateReservationRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateReservationRequest
+     */
+    'message'?: string;
+}
 
 /**
  * AmbulanceApi - axios parameter creator
@@ -1646,15 +1671,15 @@ export const ReservationApiAxiosParamCreator = function (configuration?: Configu
          * 
          * @summary Update an existing reservation
          * @param {string} reservationId ID of reservation to update
-         * @param {ReservationInput} reservationInput Reservation object that needs to be updated
+         * @param {UpdateReservationRequest} updateReservationRequest Reservation object that needs to be updated
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateReservation: async (reservationId: string, reservationInput: ReservationInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateReservation: async (reservationId: string, updateReservationRequest: UpdateReservationRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'reservationId' is not null or undefined
             assertParamExists('updateReservation', 'reservationId', reservationId)
-            // verify required parameter 'reservationInput' is not null or undefined
-            assertParamExists('updateReservation', 'reservationInput', reservationInput)
+            // verify required parameter 'updateReservationRequest' is not null or undefined
+            assertParamExists('updateReservation', 'updateReservationRequest', updateReservationRequest)
             const localVarPath = `/reservations/{reservationId}`
                 .replace(`{${"reservationId"}}`, encodeURIComponent(String(reservationId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1675,7 +1700,7 @@ export const ReservationApiAxiosParamCreator = function (configuration?: Configu
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(reservationInput, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(updateReservationRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1718,12 +1743,12 @@ export const ReservationApiFp = function(configuration?: Configuration) {
          * 
          * @summary Update an existing reservation
          * @param {string} reservationId ID of reservation to update
-         * @param {ReservationInput} reservationInput Reservation object that needs to be updated
+         * @param {UpdateReservationRequest} updateReservationRequest Reservation object that needs to be updated
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateReservation(reservationId: string, reservationInput: ReservationInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Reservation>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateReservation(reservationId, reservationInput, options);
+        async updateReservation(reservationId: string, updateReservationRequest: UpdateReservationRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Reservation>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateReservation(reservationId, updateReservationRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1760,12 +1785,12 @@ export const ReservationApiFactory = function (configuration?: Configuration, ba
          * 
          * @summary Update an existing reservation
          * @param {string} reservationId ID of reservation to update
-         * @param {ReservationInput} reservationInput Reservation object that needs to be updated
+         * @param {UpdateReservationRequest} updateReservationRequest Reservation object that needs to be updated
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateReservation(reservationId: string, reservationInput: ReservationInput, options?: any): AxiosPromise<Reservation> {
-            return localVarFp.updateReservation(reservationId, reservationInput, options).then((request) => request(axios, basePath));
+        updateReservation(reservationId: string, updateReservationRequest: UpdateReservationRequest, options?: any): AxiosPromise<Reservation> {
+            return localVarFp.updateReservation(reservationId, updateReservationRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1800,12 +1825,12 @@ export interface ReservationApiInterface {
      * 
      * @summary Update an existing reservation
      * @param {string} reservationId ID of reservation to update
-     * @param {ReservationInput} reservationInput Reservation object that needs to be updated
+     * @param {UpdateReservationRequest} updateReservationRequest Reservation object that needs to be updated
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReservationApiInterface
      */
-    updateReservation(reservationId: string, reservationInput: ReservationInput, options?: AxiosRequestConfig): AxiosPromise<Reservation>;
+    updateReservation(reservationId: string, updateReservationRequest: UpdateReservationRequest, options?: AxiosRequestConfig): AxiosPromise<Reservation>;
 
 }
 
@@ -1844,13 +1869,13 @@ export class ReservationApi extends BaseAPI implements ReservationApiInterface {
      * 
      * @summary Update an existing reservation
      * @param {string} reservationId ID of reservation to update
-     * @param {ReservationInput} reservationInput Reservation object that needs to be updated
+     * @param {UpdateReservationRequest} updateReservationRequest Reservation object that needs to be updated
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReservationApi
      */
-    public updateReservation(reservationId: string, reservationInput: ReservationInput, options?: AxiosRequestConfig) {
-        return ReservationApiFp(this.configuration).updateReservation(reservationId, reservationInput, options).then((request) => request(this.axios, this.basePath));
+    public updateReservation(reservationId: string, updateReservationRequest: UpdateReservationRequest, options?: AxiosRequestConfig) {
+        return ReservationApiFp(this.configuration).updateReservation(reservationId, updateReservationRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

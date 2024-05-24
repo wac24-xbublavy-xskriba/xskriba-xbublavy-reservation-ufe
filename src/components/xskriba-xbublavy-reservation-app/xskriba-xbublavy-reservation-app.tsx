@@ -7,13 +7,7 @@ import ambulanceIcon from '@shoelace-style/shoelace/dist/assets/icons/hospital-f
 import patientIcon from '@shoelace-style/shoelace/dist/assets/icons/person-vcard-fill.svg'
 
 import { formatFullName } from '../../utils/utils'
-import {
-  Ambulance,
-  Patient,
-  AmbulanceApiFactory,
-  PatientApiFactory,
-  Reservation
-} from '../../api/reservation'
+import { Ambulance, Patient, AmbulanceApiFactory, PatientApiFactory } from '../../api/reservation'
 
 const Router = createRouter()
 
@@ -36,7 +30,6 @@ export class XskribaXbublavyReservationApp {
 
   @State() private selectedAmbulance: Ambulance | null = null
   @State() private selectedPatient: Patient | null = null
-  @State() private selectedReservationId: Reservation['id'] | null = null
 
   private async getAmbulances(): Promise<Ambulance[]> {
     try {
@@ -209,31 +202,6 @@ export class XskribaXbublavyReservationApp {
         </header>
 
         <main>
-          {(this.selectedAmbulance || this.selectedPatient) && (
-            <sl-drawer
-              label="Reservation Detail"
-              open={this.selectedReservationId}
-              on-sl-hide={() => this.handleCloseReservationDetail()}
-            >
-              {this.selectedReservationId && (
-                <xskriba-xbublavy-reservation-detail
-                  api-base={this.apiBase}
-                  ambulance-reservation-id={this.selectedAmbulance?.id}
-                  patient-reservation-id={this.selectedPatient?.id}
-                  reservation-id={this.selectedReservationId}
-                ></xskriba-xbublavy-reservation-detail>
-              )}
-
-              <sl-button
-                slot="footer"
-                variant="primary"
-                onclick={() => this.handleCloseReservationDetail()}
-              >
-                Close
-              </sl-button>
-            </sl-drawer>
-          )}
-
           <Router.Switch>
             {!this.selectedAmbulance && !this.selectedPatient ? (
               <Route
@@ -268,9 +236,6 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-reservations-list
                     api-base={this.apiBase}
                     ambulance={this.selectedAmbulance}
-                    onReservationEventClicked={reservation =>
-                      this.handleReservationEventClicked(reservation.detail)
-                    }
                   />
                 )}
               />
@@ -316,9 +281,6 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-reservations-list
                     api-base={this.apiBase}
                     patient={this.selectedPatient}
-                    onReservationEventClicked={reservation =>
-                      this.handleReservationEventClicked(reservation.detail)
-                    }
                   />
                 )}
               />
@@ -381,14 +343,5 @@ export class XskribaXbublavyReservationApp {
     this.selectedAmbulance = null
     this.selectedPatient = null
     Router.push('/')
-  }
-
-  /* RESERVATION */
-  private handleReservationEventClicked(reservationId: Reservation['id']) {
-    this.selectedReservationId = reservationId
-  }
-
-  private handleCloseReservationDetail() {
-    this.selectedReservationId = null
   }
 }
