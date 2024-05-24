@@ -50,6 +50,10 @@ export interface XskribaXbublavyPatientCreateCustomEvent<T> extends CustomEvent<
     detail: T;
     target: HTMLXskribaXbublavyPatientCreateElement;
 }
+export interface XskribaXbublavyReservationCreateCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXskribaXbublavyReservationCreateElement;
+}
 export interface XskribaXbublavyReservationDetailCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLXskribaXbublavyReservationDetailElement;
@@ -119,7 +123,18 @@ declare global {
         prototype: HTMLXskribaXbublavyReservationAppElement;
         new (): HTMLXskribaXbublavyReservationAppElement;
     };
+    interface HTMLXskribaXbublavyReservationCreateElementEventMap {
+        "reservationCreated": Reservation;
+    }
     interface HTMLXskribaXbublavyReservationCreateElement extends Components.XskribaXbublavyReservationCreate, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXskribaXbublavyReservationCreateElementEventMap>(type: K, listener: (this: HTMLXskribaXbublavyReservationCreateElement, ev: XskribaXbublavyReservationCreateCustomEvent<HTMLXskribaXbublavyReservationCreateElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXskribaXbublavyReservationCreateElementEventMap>(type: K, listener: (this: HTMLXskribaXbublavyReservationCreateElement, ev: XskribaXbublavyReservationCreateCustomEvent<HTMLXskribaXbublavyReservationCreateElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLXskribaXbublavyReservationCreateElement: {
         prototype: HTMLXskribaXbublavyReservationCreateElement;
@@ -193,6 +208,7 @@ declare namespace LocalJSX {
     }
     interface XskribaXbublavyReservationCreate {
         "apiBase"?: string;
+        "onReservationCreated"?: (event: XskribaXbublavyReservationCreateCustomEvent<Reservation>) => void;
         "patient"?: Patient | null;
     }
     interface XskribaXbublavyReservationDetail {

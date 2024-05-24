@@ -15,6 +15,7 @@ import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-o
 import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.svg'
 
 import { ReservationApiFactory, Reservation, ReservationInput } from '../../api/reservation'
+import { formatFullName } from '../../utils/utils'
 
 const schema = z.object({
   message: z.string().optional()
@@ -42,7 +43,31 @@ export class XskribaXbublavyReservationDetail {
   @State() isValid: boolean = false
   @State() globalError: string | null = null
   @State() errors: Partial<Record<keyof FormData, string>> = {}
-  @State() reservation: Reservation | null = null
+  @State() reservation: Reservation | null = {
+    id: '1',
+    patient: {
+      id: '1',
+      firstName: 'test',
+      lastName: 'test',
+      birthday: '2021-08-24',
+      sex: 'male',
+      bio: 'test'
+    },
+    ambulance: {
+      id: '1',
+      name: 'test',
+      address: 'test',
+      medicalExaminations: ['X-ray'],
+      officeHours: {
+        open: '09:00',
+        close: '13:00'
+      }
+    },
+    message: 'test message',
+    start: new Date().toISOString(),
+    end: new Date().toISOString(),
+    examinationType: 'X-ray'
+  }
   @State() entry: Partial<Reservation> = defaultReservation
 
   @Event() reservationDeleted: EventEmitter<void>
@@ -80,8 +105,8 @@ export class XskribaXbublavyReservationDetail {
       await api.updateReservation(this.patientReservationId, { ...this.reservation, ...data })
 
       await this.reloadReservation()
-    } catch (e) {
-      console.error(e)
+    } catch (err) {
+      console.error(err.message)
       this.globalError = 'An error occurred while creating the ambulance. Please try again.'
     } finally {
       this.isLoading = false
@@ -97,8 +122,8 @@ export class XskribaXbublavyReservationDetail {
         this.reservationDeleted.emit()
         this.isDeleteDialogOpen = false
       }
-    } catch (e) {
-      console.error(e)
+    } catch (err) {
+      console.error(err.message)
       this.globalError = 'An error occurred while deleting the patient. Please try again.'
     } finally {
       this.isLoading = false
@@ -112,7 +137,7 @@ export class XskribaXbublavyReservationDetail {
       )
       return response.data
     } catch (err) {
-      alert(err.message)
+      console.error(err.message)
       return null
     }
   }
@@ -144,6 +169,8 @@ export class XskribaXbublavyReservationDetail {
   render() {
     const canSubmit = Object.values(this.errors).every(error => !error) && this.entry.message
 
+    if (!this.reservation) return <sl-spinner></sl-spinner>
+
     return (
       <Host>
         <sl-dialog open={this.isDeleteDialogOpen} label={`Do you want to remove this reservation?`}>
@@ -159,17 +186,93 @@ export class XskribaXbublavyReservationDetail {
           </sl-button>
         </sl-dialog>
 
-        <sl-card>Ambulance or Patient</sl-card>
+        <sl-card>
+          <div class="wrapper">
+            <sl-badge variant="primary" pill class="badge">
+              {this.ambulanceReservationId ? 'Patient' : 'Ambulance'}
+            </sl-badge>
 
-        <section>
-          <div>
-            {this.reservation?.start}
-            <sl-divider vertical></sl-divider>
-            {this.reservation?.end}
+            <header>
+              <h3>
+                {this.ambulanceReservationId
+                  ? formatFullName(
+                      this.reservation.patient.firstName,
+                      this.reservation.patient.lastName
+                    )
+                  : this.reservation?.ambulance?.name}
+              </h3>
+
+              <span>
+                {this.ambulanceReservationId
+                  ? this.reservation.patient.bio
+                  : this.reservation.ambulance.address}
+              </span>
+            </header>
+
+            <footer>
+              {this.ambulanceReservationId && <small>Birthday</small>}
+
+              {this.ambulanceReservationId && (
+                <sl-tag size="small" class="date">
+                  <sl-format-date month="long" day="numeric" year="numeric">
+                    {this.reservation.patient.birthday}
+                  </sl-format-date>
+                </sl-tag>
+              )}
+
+              {this.ambulanceReservationId && <small>Sex</small>}
+
+              {this.ambulanceReservationId && (
+                <sl-tag variant="success" size="small" class="date">
+                  {this.reservation.patient.sex}
+                </sl-tag>
+              )}
+
+              {this.patientReservationId && (
+                <div>
+                  <sl-tag size="medium">{this.reservation.ambulance.officeHours.open}</sl-tag>
+                  <small>-</small>
+                  <sl-tag size="medium">{this.reservation.ambulance.officeHours.close}</sl-tag>
+                </div>
+              )}
+            </footer>
           </div>
+        </sl-card>
+
+        <sl-card>
+          <div class="reservation">
+            <small>from:</small>
+            <sl-tag variant="primary" size="large" class="date">
+              <sl-format-date month="long" day="numeric" year="numeric">
+                {this.reservation.start}
+              </sl-format-date>
+              <small>-</small>
+              <sl-format-date hour="numeric" minute="numeric">
+                {this.reservation.start}
+              </sl-format-date>
+            </sl-tag>
+
+            <small>to:</small>
+            <sl-tag variant="primary" size="large" class="date">
+              <sl-format-date month="long" day="numeric" year="numeric">
+                {this.reservation.end}
+              </sl-format-date>
+              <small>-</small>
+              <sl-format-date hour="numeric" minute="numeric">
+                {this.reservation.end}
+              </sl-format-date>
+            </sl-tag>
+          </div>
+
           <sl-divider></sl-divider>
-          {this.reservation?.examinationType}
-        </section>
+
+          <div class="reservation">
+            <small>Examination:</small>
+            <sl-tag variant="success" class="date">
+              {this.reservation.examinationType}
+            </sl-tag>
+          </div>
+        </sl-card>
 
         <form onSubmit={event => this.handleSubmit(event)} class="validity-styles">
           <sl-textarea
@@ -190,31 +293,30 @@ export class XskribaXbublavyReservationDetail {
             </sl-alert>
           )}
 
-          <footer>
+          {this.patientReservationId && (
             <sl-button
-              onclick={() => this.handleOpenDialog()}
-              disabled={this.isLoading}
-              variant="danger"
-              size="medium"
-              class="end"
-              outline
+              disabled={!canSubmit || this.isLoading}
+              loading={this.isLoading}
+              type="submit"
+              variant="primary"
             >
-              Delete Reservation
-              <sl-icon slot="suffix" src={trashIcon} label="Delete"></sl-icon>
+              Update Reservation
             </sl-button>
-
-            {this.patientReservationId && (
-              <sl-button
-                disabled={!canSubmit || this.isLoading}
-                loading={this.isLoading}
-                type="submit"
-                variant="primary"
-              >
-                Update Reservation
-              </sl-button>
-            )}
-          </footer>
+          )}
         </form>
+
+        <sl-button
+          slot="footer"
+          onclick={() => this.handleOpenDialog()}
+          disabled={this.isLoading}
+          variant="danger"
+          size="medium"
+          class="end"
+          outline
+        >
+          Delete Reservation
+          <sl-icon slot="suffix" src={trashIcon} label="Delete"></sl-icon>
+        </sl-button>
       </Host>
     )
   }

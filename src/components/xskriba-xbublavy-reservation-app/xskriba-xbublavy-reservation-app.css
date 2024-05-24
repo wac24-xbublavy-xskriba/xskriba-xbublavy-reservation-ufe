@@ -1,6 +1,7 @@
 @import '~@shoelace-style/shoelace/dist/themes/light.css';
 
 :host {
+  position: relative;
   display: flex;
   flex-direction: column;
 
@@ -12,6 +13,9 @@ header {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 999;
 
   padding: 12px 24px;
   border-bottom: 1px solid var(--sl-color-gray-200);
