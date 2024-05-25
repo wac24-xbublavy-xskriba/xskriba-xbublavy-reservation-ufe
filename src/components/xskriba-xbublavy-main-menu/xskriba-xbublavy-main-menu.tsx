@@ -13,8 +13,8 @@ import { EXAMINATION_TYPE } from '../../global/constants'
   shadow: true
 })
 export class XskribaXbublavyMainMenu {
-  @Prop() ambulances: Ambulance[]
-  @Prop() patients: Patient[]
+  @Prop() ambulances: Ambulance[] = []
+  @Prop() patients: Patient[] = []
 
   @Event() selectAmbulance: EventEmitter<Ambulance>
   @Event() selectPatient: EventEmitter<Patient>
