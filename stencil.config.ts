@@ -17,23 +17,13 @@ export const config: Config = {
     },
     {
       type: 'www',
-      serviceWorker: null, // disable service workers
-      copy: [
-        {
-          src: '../node_modules/@shoelace-style/shoelace/dist/assets/icons',
-          dest: 'assets/icons',
-          warn: true
-        }
-      ]
+      serviceWorker: null // disable service workers
     }
   ],
   testing: {
     transformIgnorePatterns: ['/node_modules/(?!axios)'],
     transform: {
       '^.+\\.(js|jsx)$': 'babel-jest'
-    },
-    moduleNameMapper: {
-      '^.+\\.svg$': 'jest-svg-transformer'
     }
   }
 }

@@ -14,6 +14,8 @@ import { formatFullName } from '../../utils/utils'
 import { EXAMINATION_TYPE } from '../../global/constants'
 import { setBaseUrl, withBase } from '../../store/baseUrlStore'
 
+import { HOUSE_FILL_ICON } from '../../global/icons'
+
 const Router = createRouter()
 
 export type Toast = {
@@ -103,7 +105,14 @@ export class XskribaXbublavyReservationApp {
   handleBaseUrlChange(newValue: string) {
     setBaseUrl(newValue)
     registerIconLibrary('default', {
-      resolver: name => withBase(`/assets/icons/${name}.svg`)
+      resolver: (name: string) => {
+        switch (name) {
+          case 'house-fill':
+            return HOUSE_FILL_ICON
+          default:
+            return HOUSE_FILL_ICON
+        }
+      }
     })
   }
 
