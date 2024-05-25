@@ -14,7 +14,18 @@ import { formatFullName } from '../../utils/utils'
 import { EXAMINATION_TYPE } from '../../global/constants'
 import { setBaseUrl, withBase } from '../../store/baseUrlStore'
 
-import { HOUSE_FILL_ICON } from '../../global/icons'
+import {
+  CHECK2_CIRCLE_ICON,
+  CHEVRON_LEFT_ICON,
+  EXCLAMATION_OCTAGON_ICON,
+  EXCLAMATION_TRIANGLE_ICON,
+  HOSPITAL_FILL_ICON,
+  HOUSE_FILL_ICON,
+  INFO_CIRCLE_ICON,
+  PERSON_PLUS_FILL_ICON,
+  PERSON_VCARD_FILL_ICON,
+  TRASH3_FILL_ICON
+} from '../../global/icons'
 
 const Router = createRouter()
 
@@ -104,11 +115,30 @@ export class XskribaXbublavyReservationApp {
   @Watch('baseUrl')
   handleBaseUrlChange(newValue: string) {
     setBaseUrl(newValue)
+
     registerIconLibrary('default', {
       resolver: (name: string) => {
         switch (name) {
           case 'house-fill':
             return HOUSE_FILL_ICON
+          case 'check2-circle':
+            return CHECK2_CIRCLE_ICON
+          case 'exclamation-octagon':
+            return EXCLAMATION_OCTAGON_ICON
+          case 'person-plus-fill':
+            return PERSON_PLUS_FILL_ICON
+          case 'hospital-fill':
+            return HOSPITAL_FILL_ICON
+          case 'person-vcard-fill':
+            return PERSON_VCARD_FILL_ICON
+          case 'chevron-left':
+            return CHEVRON_LEFT_ICON
+          case 'trash3-fill':
+            return TRASH3_FILL_ICON
+          case 'exclamation-triangle':
+            return EXCLAMATION_TRIANGLE_ICON
+          case 'info-circle':
+            return INFO_CIRCLE_ICON
           default:
             return HOUSE_FILL_ICON
         }
@@ -390,7 +420,7 @@ export class XskribaXbublavyReservationApp {
             />
 
             {/* REDIRECT */}
-            <Route path={/^(?!.*\.svg$).*/} to={withBase('/')} />
+            <Route path={/^(?!.*ui\/?$).*/} to={withBase('/')} />
           </Router.Switch>
         </main>
       </Host>
