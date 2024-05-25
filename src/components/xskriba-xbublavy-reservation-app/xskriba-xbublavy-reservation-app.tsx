@@ -2,13 +2,6 @@ import { Component, Host, Prop, State, Watch, forceUpdate, h } from '@stencil/co
 import { createRouter, href, match, Route } from 'stencil-router-v2'
 import dayjs from 'dayjs'
 
-import addIcon from '@shoelace-style/shoelace/dist/assets/icons/person-plus-fill.svg'
-import homeIcon from '@shoelace-style/shoelace/dist/assets/icons/house-fill.svg'
-import ambulanceIcon from '@shoelace-style/shoelace/dist/assets/icons/hospital-fill.svg'
-import patientIcon from '@shoelace-style/shoelace/dist/assets/icons/person-vcard-fill.svg'
-import successIcon from '@shoelace-style/shoelace/dist/assets/icons/check2-circle.svg'
-import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
-
 import {
   type Ambulance,
   type Patient,
@@ -128,7 +121,7 @@ export class XskribaXbublavyReservationApp {
         >
           <sl-icon
             slot="icon"
-            src={this.toast?.variant === 'success' ? successIcon : dangerIcon}
+            name={this.toast?.variant === 'success' ? 'check2-circle' : 'exclamation-octagon'}
           ></sl-icon>
 
           <strong>{this.toast?.message}</strong>
@@ -223,23 +216,23 @@ export class XskribaXbublavyReservationApp {
                 outline
                 circle
               >
-                <sl-icon src={homeIcon} label="Home"></sl-icon>
+                <sl-icon name="house-fill" label="Home"></sl-icon>
               </sl-button>
             )}
 
             <sl-dropdown distance={8} placement="bottom-end">
               <sl-button slot="trigger" variant="primary" size="large" circle>
-                <sl-icon src={addIcon} label="Create Profile"></sl-icon>
+                <sl-icon name="person-plus-fill" label="Create Profile"></sl-icon>
               </sl-button>
 
               <sl-menu>
                 <sl-menu-item {...href(withBase('/ambulance'))}>
-                  <sl-icon slot="prefix" src={ambulanceIcon}></sl-icon>
+                  <sl-icon slot="prefix" name="hospital-fill"></sl-icon>
                   Create Ambulance
                 </sl-menu-item>
 
                 <sl-menu-item {...href(withBase('/patient'))}>
-                  <sl-icon slot="prefix" src={patientIcon}></sl-icon>
+                  <sl-icon slot="prefix" name="person-vcard-fill"></sl-icon>
                   Create Patient
                 </sl-menu-item>
               </sl-menu>

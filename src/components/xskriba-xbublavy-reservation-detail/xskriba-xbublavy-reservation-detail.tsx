@@ -11,9 +11,6 @@ import {
 } from '@stencil/core'
 import dayjs from 'dayjs'
 
-import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
-import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.svg'
-
 import {
   ReservationApiFactory,
   type Reservation,
@@ -261,7 +258,7 @@ export class XskribaXbublavyReservationDetail {
 
           {this.globalError && (
             <sl-alert variant="danger" open>
-              <sl-icon slot="icon" src={dangerIcon}></sl-icon>
+              <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
               <strong>{this.globalError}</strong>
             </sl-alert>
           )}
@@ -288,7 +285,7 @@ export class XskribaXbublavyReservationDetail {
           outline
         >
           Delete Reservation
-          <sl-icon slot="suffix" src={trashIcon} label="Delete"></sl-icon>
+          <sl-icon slot="suffix" name="trash3-fill" label="Delete"></sl-icon>
         </sl-button>
       </Host>
     )

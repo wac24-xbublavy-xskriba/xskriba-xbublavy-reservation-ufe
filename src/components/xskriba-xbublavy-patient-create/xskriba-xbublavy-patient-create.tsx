@@ -12,10 +12,6 @@ import {
 import { href } from 'stencil-router-v2'
 import dayjs from 'dayjs'
 
-import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.svg'
-import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
-import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.svg'
-
 import { PatientApiFactory, Sex, type Patient } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
 import { CreatePatientSchema } from '../../global/schemas'
@@ -183,7 +179,7 @@ export class XskribaXbublavyPatientCreate {
           <header slot="header">
             <div>
               <sl-icon-button
-                src={backIcon}
+                name="chevron-left"
                 label="Back"
                 {...href(withBase(isProfile ? `/patient/${this.userId}/reservations` : '/'))}
                 disabled={this.isLoading}
@@ -201,7 +197,7 @@ export class XskribaXbublavyPatientCreate {
                 class="end"
                 circle
               >
-                <sl-icon src={trashIcon} label="Delete"></sl-icon>
+                <sl-icon name="trash3-fill" label="Delete"></sl-icon>
               </sl-button>
             )}
           </header>
@@ -273,7 +269,7 @@ export class XskribaXbublavyPatientCreate {
 
             {this.globalError && (
               <sl-alert variant="danger" open>
-                <sl-icon slot="icon" src={dangerIcon}></sl-icon>
+                <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
                 <strong>{this.globalError}</strong>
               </sl-alert>
             )}

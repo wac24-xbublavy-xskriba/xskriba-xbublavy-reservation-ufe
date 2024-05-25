@@ -13,10 +13,6 @@ import { href } from 'stencil-router-v2'
 import { z } from 'zod'
 import dayjs from 'dayjs'
 
-import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.svg'
-import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
-import infoIcon from '@shoelace-style/shoelace/dist/assets/icons/info-circle.svg'
-
 import {
   type Examination,
   type Patient,
@@ -190,7 +186,7 @@ export class XskribaXbublavyReservationCreate {
           <article class="wrapper">
             <header>
               <sl-icon-button
-                src={backIcon}
+                name="chevron-left"
                 label="Back"
                 {...href(withBase(`/ambulance/${this.patient?.id}/reservations`))}
                 disabled={this.isFetching || this.isLoading}
@@ -241,7 +237,7 @@ export class XskribaXbublavyReservationCreate {
 
             {this.globalError && (
               <sl-alert variant="danger" open>
-                <sl-icon slot="icon" src={dangerIcon}></sl-icon>
+                <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
                 <strong>{this.globalError}</strong>
               </sl-alert>
             )}
@@ -253,7 +249,7 @@ export class XskribaXbublavyReservationCreate {
 
           {this.isFetched && !this.examinations.length && (
             <sl-alert variant="primary" open>
-              <sl-icon slot="icon" src={infoIcon}></sl-icon>
+              <sl-icon slot="icon" name="info-circle"></sl-icon>
               <strong>No ambulance available for the selected date and examination type.</strong>
             </sl-alert>
           )}

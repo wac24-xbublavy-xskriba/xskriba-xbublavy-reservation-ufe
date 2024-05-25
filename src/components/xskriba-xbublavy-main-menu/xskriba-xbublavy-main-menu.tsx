@@ -2,8 +2,6 @@ import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core'
 import { href } from 'stencil-router-v2'
 import dayjs from 'dayjs'
 
-import alertIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-triangle.svg'
-
 import { type Ambulance, type Patient } from '../../api/reservation'
 import { EXAMINATION_TYPE } from '../../global/constants'
 import { withBase } from '../../store/baseUrlStore'
@@ -55,7 +53,7 @@ export class XskribaXbublavyMainMenu {
       <Host>
         {!this.ambulances.length && !this.patients.length && (
           <sl-alert variant="warning" open>
-            <sl-icon slot="icon" src={alertIcon}></sl-icon>
+            <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
             <strong>There are no ambulances or patients to select.</strong>
             <br />
             Please create an ambulance or patient to continue.

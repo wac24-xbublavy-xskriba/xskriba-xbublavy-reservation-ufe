@@ -11,10 +11,6 @@ import {
 } from '@stencil/core'
 import { href } from 'stencil-router-v2'
 
-import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.svg'
-import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
-import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.svg'
-
 import { AmbulanceApiFactory, MedicalExaminations, type Ambulance } from '../../api/reservation'
 import { CreateAmbulanceSchema, CreateAmbulanceSchemaTransform } from '../../global/schemas'
 import { isValidTimeBefore } from '../../utils/utils'
@@ -189,7 +185,7 @@ export class XskribaXbublavyAmbulanceCreate {
           <header slot="header">
             <div>
               <sl-icon-button
-                src={backIcon}
+                name="chevron-left"
                 label="Back"
                 {...href(withBase(isProfile ? `/ambulance/${this.userId}/reservations` : '/'))}
                 disabled={this.isLoading}
@@ -207,7 +203,7 @@ export class XskribaXbublavyAmbulanceCreate {
                 class="end"
                 circle
               >
-                <sl-icon src={trashIcon} label="Delete"></sl-icon>
+                <sl-icon name="trash3-fill" label="Delete"></sl-icon>
               </sl-button>
             )}
           </header>
@@ -277,7 +273,7 @@ export class XskribaXbublavyAmbulanceCreate {
 
             {this.globalError && (
               <sl-alert variant="danger" open>
-                <sl-icon slot="icon" src={dangerIcon}></sl-icon>
+                <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
                 <strong>{this.globalError}</strong>
               </sl-alert>
             )}
