@@ -20,6 +20,7 @@ import { CreateAmbulanceSchema, CreateAmbulanceSchemaTransform } from '../../glo
 import { isValidTimeBefore } from '../../utils/utils'
 
 import { EXAMINATION_TYPE } from '../../global/constants'
+import { withBase } from '../../store/baseUrlStore'
 
 export type FormData = Omit<Ambulance, 'officeHours'> & Ambulance['officeHours']
 
@@ -190,7 +191,7 @@ export class XskribaXbublavyAmbulanceCreate {
               <sl-icon-button
                 src={backIcon}
                 label="Back"
-                {...href(isProfile ? `/ambulance/${this.userId}/reservations` : '/')}
+                {...href(withBase(isProfile ? `/ambulance/${this.userId}/reservations` : '/'))}
                 disabled={this.isLoading}
               ></sl-icon-button>
 

@@ -1,4 +1,4 @@
-import { Component, Host, Prop, State, forceUpdate, h } from '@stencil/core'
+import { Component, Host, Prop, State, Watch, forceUpdate, h } from '@stencil/core'
 import { createRouter, href, match, Route } from 'stencil-router-v2'
 import dayjs from 'dayjs'
 
@@ -18,6 +18,7 @@ import {
 } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
 import { EXAMINATION_TYPE } from '../../global/constants'
+import { setBaseUrl, withBase } from '../../store/baseUrlStore'
 
 const Router = createRouter()
 
@@ -34,6 +35,7 @@ export type Toast = {
 })
 export class XskribaXbublavyReservationApp {
   @Prop() apiBase: string
+  @Prop() baseUrl: string = ''
 
   @State() private toast: Toast | null = null
 
@@ -76,6 +78,7 @@ export class XskribaXbublavyReservationApp {
   }
 
   async componentWillLoad() {
+    this.handleBaseUrlChange(this.baseUrl)
     this.ambulances = await this.getAmbulances()
     this.patients = await this.getPatients()
   }
@@ -102,10 +105,16 @@ export class XskribaXbublavyReservationApp {
     )
   }
 
+  @Watch('baseUrl')
+  handleBaseUrlChange(newValue: string) {
+    setBaseUrl(newValue)
+  }
+
   render() {
     console.debug('api-base:', this.apiBase)
+    console.debug('base-url:', this.baseUrl)
 
-    const isCreateRoute = ['/ambulance', '/patient'].includes(Router.activePath)
+    const isCreateRoute = [withBase('/ambulance'), withBase('/patient')].includes(Router.activePath)
     const isAmbulance = this.selectedAmbulance && !this.selectedPatient
 
     return (
@@ -139,11 +148,13 @@ export class XskribaXbublavyReservationApp {
                 variant="text"
                 size="large"
                 {...href(
-                  this.selectedAmbulance
-                    ? `/ambulance/${this.selectedAmbulance.id}/reservations`
-                    : this.selectedPatient
-                    ? `/patient/${this.selectedPatient.id}/reservations`
-                    : '/'
+                  withBase(
+                    this.selectedAmbulance
+                      ? `/ambulance/${this.selectedAmbulance.id}/reservations`
+                      : this.selectedPatient
+                      ? `/patient/${this.selectedPatient.id}/reservations`
+                      : '/'
+                  )
                 )}
               >
                 Reservations
@@ -175,11 +186,13 @@ export class XskribaXbublavyReservationApp {
                 <sl-menu>
                   <sl-menu-item
                     {...href(
-                      this.selectedAmbulance
-                        ? `/ambulance/${this.selectedAmbulance.id}`
-                        : this.selectedPatient
-                        ? `/patient/${this.selectedPatient.id}`
-                        : '/'
+                      withBase(
+                        this.selectedAmbulance
+                          ? `/ambulance/${this.selectedAmbulance.id}`
+                          : this.selectedPatient
+                          ? `/patient/${this.selectedPatient.id}`
+                          : '/'
+                      )
                     )}
                   >
                     My Profile
@@ -197,11 +210,13 @@ export class XskribaXbublavyReservationApp {
             ) : (
               <sl-button
                 {...href(
-                  this.selectedAmbulance
-                    ? `/ambulance/${this.selectedAmbulance.id}/reservations`
-                    : this.selectedPatient
-                    ? `/patient/${this.selectedPatient.id}/reservations`
-                    : '/'
+                  withBase(
+                    this.selectedAmbulance
+                      ? `/ambulance/${this.selectedAmbulance.id}/reservations`
+                      : this.selectedPatient
+                      ? `/patient/${this.selectedPatient.id}/reservations`
+                      : '/'
+                  )
                 )}
                 variant="primary"
                 size="large"
@@ -218,12 +233,12 @@ export class XskribaXbublavyReservationApp {
               </sl-button>
 
               <sl-menu>
-                <sl-menu-item {...href('/ambulance')}>
+                <sl-menu-item {...href(withBase('/ambulance'))}>
                   <sl-icon slot="prefix" src={ambulanceIcon}></sl-icon>
                   Create Ambulance
                 </sl-menu-item>
 
-                <sl-menu-item {...href('/patient')}>
+                <sl-menu-item {...href(withBase('/patient'))}>
                   <sl-icon slot="prefix" src={patientIcon}></sl-icon>
                   Create Patient
                 </sl-menu-item>
@@ -236,7 +251,7 @@ export class XskribaXbublavyReservationApp {
           <Router.Switch>
             {!this.selectedAmbulance && !this.selectedPatient ? (
               <Route
-                path="/"
+                path={withBase('/')}
                 render={() => (
                   <xskriba-xbublavy-main-menu
                     ambulances={this.ambulances}
@@ -248,7 +263,7 @@ export class XskribaXbublavyReservationApp {
               />
             ) : (
               <Route
-                path="/"
+                path={withBase('/')}
                 to={
                   this.selectedAmbulance
                     ? `/ambulance/${this.selectedAmbulance.id}/reservations`
@@ -262,7 +277,10 @@ export class XskribaXbublavyReservationApp {
             {/* AMBULANCE ROUTES */}
             {this.selectedAmbulance && (
               <Route
-                path={match('/ambulance/:userId/reservations', { exact: true, strict: true })}
+                path={match(withBase('/ambulance/:userId/reservations'), {
+                  exact: true,
+                  strict: true
+                })}
                 render={() => (
                   <xskriba-xbublavy-reservations-list
                     api-base={this.apiBase}
@@ -280,7 +298,7 @@ export class XskribaXbublavyReservationApp {
             )}
             {this.selectedAmbulance && (
               <Route
-                path={match('/ambulance/:userId', { exact: true, strict: true })}
+                path={match(withBase('/ambulance/:userId'), { exact: true, strict: true })}
                 render={({ userId }) => (
                   <xskriba-xbublavy-ambulance-create
                     api-base={this.apiBase}
@@ -294,7 +312,7 @@ export class XskribaXbublavyReservationApp {
               />
             )}
             <Route
-              path="/ambulance"
+              path={withBase('/ambulance')}
               render={() => (
                 <xskriba-xbublavy-ambulance-create
                   api-base={this.apiBase}
@@ -306,7 +324,10 @@ export class XskribaXbublavyReservationApp {
             {/* PATIENT ROUTES */}
             {this.selectedPatient && (
               <Route
-                path={match('/patient/:userId/reservations/create', { exact: true, strict: true })}
+                path={match(withBase('/patient/:userId/reservations/create'), {
+                  exact: true,
+                  strict: true
+                })}
                 render={() => (
                   <xskriba-xbublavy-reservation-create
                     api-base={this.apiBase}
@@ -320,7 +341,10 @@ export class XskribaXbublavyReservationApp {
             )}
             {this.selectedPatient && (
               <Route
-                path={match('/patient/:userId/reservations', { exact: true, strict: true })}
+                path={match(withBase('/patient/:userId/reservations'), {
+                  exact: true,
+                  strict: true
+                })}
                 render={() => (
                   <xskriba-xbublavy-reservations-list
                     api-base={this.apiBase}
@@ -338,7 +362,7 @@ export class XskribaXbublavyReservationApp {
             )}
             {this.selectedPatient && (
               <Route
-                path={match('/patient/:userId', { exact: true, strict: true })}
+                path={match(withBase('/patient/:userId'), { exact: true, strict: true })}
                 render={({ userId }) => (
                   <xskriba-xbublavy-patient-create
                     api-base={this.apiBase}
@@ -350,7 +374,7 @@ export class XskribaXbublavyReservationApp {
               />
             )}
             <Route
-              path="/patient"
+              path={withBase('/patient')}
               render={() => (
                 <xskriba-xbublavy-patient-create
                   api-base={this.apiBase}
@@ -360,6 +384,7 @@ export class XskribaXbublavyReservationApp {
             />
 
             {/* REDIRECT */}
+            <Route path={/.*/} to={withBase('/')} />
           </Router.Switch>
         </main>
       </Host>
@@ -371,7 +396,7 @@ export class XskribaXbublavyReservationApp {
   private async handleAmbulanceCreated(ambulance: Ambulance) {
     this.ambulances = await this.getAmbulances()
     this.handleSelectAmbulance(ambulance)
-    Router.push(`/ambulance/${ambulance.id}/reservations`)
+    Router.push(withBase(`/ambulance/${ambulance.id}/reservations`))
     this.handleToastShow({
       message: `Ambulance ${ambulance.name} created`,
       variant: 'success'
@@ -390,7 +415,7 @@ export class XskribaXbublavyReservationApp {
     this.selectedAmbulance = null
     this.selectedPatient = null
     forceUpdate(this)
-    Router.push('/')
+    Router.push(withBase('/'))
     this.handleToastShow({
       message: `Ambulance ${ambulanceName} deleted`,
       variant: 'success'
@@ -402,7 +427,7 @@ export class XskribaXbublavyReservationApp {
   private async handlePatientCreated(patient: Patient) {
     this.patients = await this.getPatients()
     this.handleSelectPatient(patient)
-    Router.push(`/patient/${patient.id}/reservations`)
+    Router.push(withBase(`/patient/${patient.id}/reservations`))
     this.handleToastShow({
       message: `Patient ${formatFullName(patient.firstName, patient.lastName)} created`,
       variant: 'success'
@@ -421,7 +446,7 @@ export class XskribaXbublavyReservationApp {
     this.selectedAmbulance = null
     this.selectedPatient = null
     forceUpdate(this)
-    Router.push('/')
+    Router.push(withBase('/'))
     this.handleToastShow({
       message: `Patient ${patientName} deleted`,
       variant: 'success'
@@ -430,7 +455,7 @@ export class XskribaXbublavyReservationApp {
 
   /* RESERVATION */
   private handleReservationCreated(reservation: Reservation) {
-    Router.push(`/patient/${reservation.patient.id}/reservations`)
+    Router.push(withBase(`/patient/${reservation.patient.id}/reservations`))
     this.createdReservation = reservation
     this.handleToastShow({
       message: `Reservation for ${EXAMINATION_TYPE[reservation.examinationType]} created`,

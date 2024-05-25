@@ -6,6 +6,7 @@ import alertIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-tr
 
 import { type Ambulance, type Patient } from '../../api/reservation'
 import { EXAMINATION_TYPE } from '../../global/constants'
+import { withBase } from '../../store/baseUrlStore'
 
 @Component({
   tag: 'xskriba-xbublavy-main-menu',
@@ -86,11 +87,11 @@ export class XskribaXbublavyMainMenu {
         </div>
 
         <section>
-          <sl-button {...href('/ambulance')} size="large" variant="primary" pill>
+          <sl-button {...href(withBase('/ambulance'))} size="large" variant="primary" pill>
             Create Ambulance
           </sl-button>
 
-          <sl-button {...href('/patient')} size="large" variant="primary" pill>
+          <sl-button {...href(withBase('/patient'))} size="large" variant="primary" pill>
             Create Patient
           </sl-button>
         </section>

@@ -156,7 +156,7 @@ export class XskribaXbublavyReservationDetail {
 
     return (
       <Host>
-        <sl-dialog open={this.isDeleteDialogOpen} label={`Do you want to remove this reservation?`}>
+        <sl-dialog open={this.isDeleteDialogOpen} label="Do you want to remove this reservation?">
           This action cannot be undone. Are you sure you want to delete this reservation?
           <sl-button
             onclick={() => this.handleDelete()}

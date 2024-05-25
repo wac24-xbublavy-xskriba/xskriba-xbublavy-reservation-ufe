@@ -22,6 +22,7 @@ export namespace Components {
     }
     interface XskribaXbublavyReservationApp {
         "apiBase": string;
+        "baseUrl": string;
     }
     interface XskribaXbublavyReservationCreate {
         "apiBase": string;
@@ -213,6 +214,7 @@ declare namespace LocalJSX {
     }
     interface XskribaXbublavyReservationApp {
         "apiBase"?: string;
+        "baseUrl"?: string;
     }
     interface XskribaXbublavyReservationCreate {
         "apiBase"?: string;

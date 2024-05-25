@@ -26,6 +26,7 @@ import {
 } from '../../api/reservation'
 import { EXAMINATION_TYPE } from '../../global/constants'
 import { CreateExaminationSchema } from '../../global/schemas'
+import { withBase } from '../../store/baseUrlStore'
 
 export type FormData = z.input<typeof CreateExaminationSchema>
 
@@ -191,7 +192,7 @@ export class XskribaXbublavyReservationCreate {
               <sl-icon-button
                 src={backIcon}
                 label="Back"
-                {...href(`/ambulance/${this.patient?.id}/reservations`)}
+                {...href(withBase(`/ambulance/${this.patient?.id}/reservations`))}
                 disabled={this.isFetching || this.isLoading}
               ></sl-icon-button>
 

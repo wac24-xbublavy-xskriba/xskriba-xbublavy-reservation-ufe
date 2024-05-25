@@ -20,6 +20,7 @@ import { PatientApiFactory, Sex, type Patient } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
 import { CreatePatientSchema } from '../../global/schemas'
 import { SEX_TYPE } from '../../global/constants'
+import { withBase } from '../../store/baseUrlStore'
 
 const defaultPatient: Partial<Patient> = {
   id: undefined,
@@ -184,7 +185,7 @@ export class XskribaXbublavyPatientCreate {
               <sl-icon-button
                 src={backIcon}
                 label="Back"
-                {...href(isProfile ? `/patient/${this.userId}/reservations` : '/')}
+                {...href(withBase(isProfile ? `/patient/${this.userId}/reservations` : '/'))}
                 disabled={this.isLoading}
               ></sl-icon-button>
 

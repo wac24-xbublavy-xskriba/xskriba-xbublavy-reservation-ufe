@@ -28,6 +28,7 @@ import {
 } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
 import { EXAMINATION_TYPE } from '../../global/constants'
+import { withBase } from '../../store/baseUrlStore'
 
 @Component({
   tag: 'xskriba-xbublavy-reservations-list',
@@ -204,7 +205,7 @@ export class XskribaXbublavyReservationsList {
               variant="primary"
               size="medium"
               pill
-              {...href(`/patient/${this.patient.id}/reservations/create`)}
+              {...href(withBase(`/patient/${this.patient.id}/reservations/create`))}
             >
               Create Reservation
             </sl-button>
