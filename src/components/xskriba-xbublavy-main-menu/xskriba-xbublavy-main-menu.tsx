@@ -1,9 +1,11 @@
 import { Component, Event, EventEmitter, Host, Prop, h } from '@stencil/core'
 import { href } from 'stencil-router-v2'
+import dayjs from 'dayjs'
 
 import alertIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-triangle.svg'
 
-import { Ambulance, Patient } from '../../api/reservation'
+import { type Ambulance, type Patient } from '../../api/reservation'
+import { EXAMINATION_TYPE } from '../../global/constants'
 
 @Component({
   tag: 'xskriba-xbublavy-main-menu',
@@ -25,7 +27,7 @@ export class XskribaXbublavyMainMenu {
           <div class="types">
             {ambulance.medicalExaminations?.map(type => (
               <sl-tag variant="primary" size="small">
-                {type}
+                {EXAMINATION_TYPE[type]}
               </sl-tag>
             ))}
           </div>
@@ -40,7 +42,7 @@ export class XskribaXbublavyMainMenu {
         <div class="wrapper">
           <small>{`${patient.firstName} ${patient.lastName}`}</small>
           <sl-tag variant="primary" size="small">
-            {patient.birthday}
+            {dayjs(patient.birthday).format('LL')}
           </sl-tag>
         </div>
       </sl-menu-item>

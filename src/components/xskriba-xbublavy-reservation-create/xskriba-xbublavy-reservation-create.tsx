@@ -11,19 +11,19 @@ import {
 } from '@stencil/core'
 import { href } from 'stencil-router-v2'
 import { z } from 'zod'
+import dayjs from 'dayjs'
 
 import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.svg'
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 import infoIcon from '@shoelace-style/shoelace/dist/assets/icons/info-circle.svg'
 
 import {
-  Examination,
+  type Examination,
+  type Patient,
+  type Reservation,
   MedicalExaminations,
-  Patient,
-  PatientApiFactory,
-  Reservation
+  PatientApiFactory
 } from '../../api/reservation'
-import dayjs from 'dayjs'
 import { EXAMINATION_TYPE } from '../../global/constants'
 
 const schema = z.object({

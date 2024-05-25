@@ -4,13 +4,13 @@ Objednávací systém na základe požiadavky pacienta, vysielajúceho, alebo od
 
 ## Use case #1
 
-- [ ] (CREATE) Ako pacient chcem mať možnosť vytvoriť požiadavku na vyšetrenie na základe typu potrebného vyšetrenia.
-- [ ] (READ) Ako pacientovi mi systém na základe požiadavky ponúkne ambulancie a voľné termíny.
-- [ ] (CREATE) Ako pacient môžem potvrdiť alebo zamietnuť ponúknuté termíny.
-- [ ] (READ) Ako ambulancia chcem vidieť, ktorí pacienti čakajú na vyšetrenie.
-- [ ] (DELETE) Ako ambulancia môžem zamietnuť termín vyšetrenia.
-- [ ] (DELETE) Ako pacient chcem mať možnosť odstrániť žiadosť o vyšetrenie.
-- [ ] (UPDATE) Ako pacient chcem mať možnosť upraviť žiadosť o vyšetrenie.
+- [x] (CREATE) Ako pacient chcem mať možnosť vytvoriť požiadavku na vyšetrenie na základe typu potrebného vyšetrenia.
+- [x] (READ) Ako pacientovi mi systém na základe požiadavky ponúkne ambulancie a voľné termíny.
+- [x] (CREATE) Ako pacient môžem potvrdiť alebo zamietnuť ponúknuté termíny.
+- [x] (READ) Ako ambulancia chcem vidieť, ktorí pacienti čakajú na vyšetrenie.
+- [x] (DELETE) Ako ambulancia môžem zamietnuť termín vyšetrenia.
+- [x] (DELETE) Ako pacient chcem mať možnosť odstrániť žiadosť o vyšetrenie.
+- [x] (UPDATE) Ako pacient chcem mať možnosť upraviť žiadosť o vyšetrenie.
 
 ## Use case #2
 
@@ -25,9 +25,9 @@ Objednávací systém na základe požiadavky pacienta, vysielajúceho, alebo od
 ## 30 points
 
 - [ ] Front-end: 6 bodov
-  - [ ] Funkčnosť (podľa počtu študentov priradených k práci)
-  - [ ] CRUD operácie
-  - [ ] error handling/okrajové prípady použitia
+  - [x] Funkčnosť (podľa počtu študentov priradených k práci)
+  - [x] CRUD operácie
+  - [x] error handling/okrajové prípady použitia
   - [x] dizajn (material komponenty)
   - [x] web komponent - čitateľnosť kódu
 - [ ] Go back-end: 6 bodov

@@ -1,5 +1,6 @@
 import { Component, Host, Prop, State, h } from '@stencil/core'
 import { createRouter, href, match, Route } from 'stencil-router-v2'
+import dayjs from 'dayjs'
 
 import addIcon from '@shoelace-style/shoelace/dist/assets/icons/person-plus-fill.svg'
 import homeIcon from '@shoelace-style/shoelace/dist/assets/icons/house-fill.svg'
@@ -8,16 +9,15 @@ import patientIcon from '@shoelace-style/shoelace/dist/assets/icons/person-vcard
 import successIcon from '@shoelace-style/shoelace/dist/assets/icons/check2-circle.svg'
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 
-import { formatFullName } from '../../utils/utils'
 import {
-  Ambulance,
-  Patient,
+  type Ambulance,
+  type Patient,
+  type Reservation,
   AmbulanceApiFactory,
-  PatientApiFactory,
-  Reservation
+  PatientApiFactory
 } from '../../api/reservation'
+import { formatFullName } from '../../utils/utils'
 import { EXAMINATION_TYPE } from '../../global/constants'
-import dayjs from 'dayjs'
 
 const Router = createRouter()
 
@@ -42,6 +42,8 @@ export class XskribaXbublavyReservationApp {
 
   @State() private selectedAmbulance: Ambulance | null = null
   @State() private selectedPatient: Patient | null = null
+
+  @State() createdReservation: Reservation | null = null
 
   private async getAmbulances(): Promise<Ambulance[]> {
     try {
@@ -265,6 +267,7 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-reservations-list
                     api-base={this.apiBase}
                     ambulance={this.selectedAmbulance}
+                    createdReservation={this.createdReservation}
                     onReservationUpdated={() =>
                       this.handleToastShow({ message: 'Reservation updated', variant: 'success' })
                     }
@@ -322,6 +325,7 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-reservations-list
                     api-base={this.apiBase}
                     patient={this.selectedPatient}
+                    createdReservation={this.createdReservation}
                     onReservationUpdated={() =>
                       this.handleToastShow({ message: 'Reservation updated', variant: 'success' })
                     }
@@ -426,6 +430,7 @@ export class XskribaXbublavyReservationApp {
   /* RESERVATION */
   private handleReservationCreated(reservation: Reservation) {
     Router.push(`/patient/${reservation.patient.id}/reservations`)
+    this.createdReservation = reservation
     this.handleToastShow({
       message: `Reservation for ${EXAMINATION_TYPE[reservation.examinationType]} created`,
       description: `In ambulance ${reservation.ambulance.name} on ${dayjs(reservation.start).format(

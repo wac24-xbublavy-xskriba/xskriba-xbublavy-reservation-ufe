@@ -11,12 +11,11 @@ import {
 } from '@stencil/core'
 import { href } from 'stencil-router-v2'
 import { z } from 'zod'
+import dayjs from 'dayjs'
 
 import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.svg'
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.svg'
-
-// TODO: toast success
 
 import { PatientApiFactory, Sex, type Patient } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
@@ -28,7 +27,15 @@ const schema = z.object({
   lastName: z.string({ required_error: 'Last name is required' }).trim(),
   birthday: z
     .string({ required_error: 'Birthday is required' })
-    .date('Birthday must be a valid date'),
+    .date('Birthday must be a valid date')
+    .refine(
+      date => {
+        return dayjs(date).isBefore(dayjs())
+      },
+      {
+        message: 'Birthday must be in the past'
+      }
+    ),
   sex: z.nativeEnum(Sex, { required_error: 'Sex is required' }),
   bio: z.string().default('')
 })
@@ -251,6 +258,7 @@ export class XskribaXbublavyPatientCreate {
                 on-sl-input={event => this.handleInput(event)}
                 help-text={this.errors.birthday}
                 disabled={isProfile || this.isLoading}
+                max={dayjs().format('YYYY-MM-DD')}
                 required
               ></sl-input>
 

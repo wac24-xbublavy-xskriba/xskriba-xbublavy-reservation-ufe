@@ -15,7 +15,11 @@ import dayjs from 'dayjs'
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.svg'
 
-import { ReservationApiFactory, Reservation, ReservationInput } from '../../api/reservation'
+import {
+  ReservationApiFactory,
+  type Reservation,
+  type ReservationInput
+} from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
 import { EXAMINATION_TYPE, SEX_TYPE } from '../../global/constants'
 

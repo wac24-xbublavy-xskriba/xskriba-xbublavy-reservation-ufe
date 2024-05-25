@@ -40,3 +40,7 @@ sl-menu-item small {
 .divider sl-divider {
   width: 40px;
 }
+
+sl-tag {
+  align-self: flex-start;
+}

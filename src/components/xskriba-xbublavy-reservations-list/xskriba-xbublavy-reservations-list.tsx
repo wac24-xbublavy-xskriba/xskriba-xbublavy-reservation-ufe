@@ -11,6 +11,7 @@ import {
   h
 } from '@stencil/core'
 import { href } from 'stencil-router-v2'
+import dayjs from 'dayjs'
 
 import { Calendar, EventClickArg, EventContentArg } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -19,15 +20,14 @@ import listPlugin from '@fullcalendar/list'
 import { h as preactH } from '@fullcalendar/core/preact'
 
 import {
-  Ambulance,
+  type Ambulance,
+  type Patient,
+  type Reservation,
   AmbulanceApiFactory,
-  Patient,
-  PatientApiFactory,
-  Reservation
+  PatientApiFactory
 } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
 import { EXAMINATION_TYPE } from '../../global/constants'
-import dayjs from 'dayjs'
 
 @Component({
   tag: 'xskriba-xbublavy-reservations-list',
@@ -40,6 +40,7 @@ export class XskribaXbublavyReservationsList {
   @Prop() apiBase: string
   @Prop() ambulance: Ambulance | null
   @Prop() patient: Patient | null
+  @Prop() createdReservation: Reservation | null
 
   @State() reservations: Reservation[] = []
   @State() calendar: Calendar
@@ -131,6 +132,7 @@ export class XskribaXbublavyReservationsList {
   componentDidLoad() {
     this.createCalendar()
     this.addEvents(this.reservations)
+    this.checkCreatedReservation()
   }
 
   async componentWillLoad() {
@@ -150,6 +152,17 @@ export class XskribaXbublavyReservationsList {
     this.reservations = await this.getReservations()
     this.addEvents(this.reservations)
     forceUpdate(this)
+  }
+
+  private async checkCreatedReservation() {
+    if (!this.createdReservation || !this.calendar) return
+
+    const start = dayjs.utc(this.createdReservation.start).toISOString()
+    this.calendar.gotoDate(start)
+    this.calendar.scrollToTime(start)
+
+    this.selectedReservationId = this.createdReservation.id
+    this.createdReservation = null
   }
 
   render() {
@@ -206,7 +219,7 @@ export class XskribaXbublavyReservationsList {
   }
 
   private getEventContent(arg: EventContentArg) {
-    return preactH('div', { className: 'event' }, [
+    return preactH('div', { 'className': 'event', 'data-id': arg.event.id }, [
       preactH('span', {}, arg.event.title),
       preactH('small', {}, arg.event.extendedProps.description)
     ])

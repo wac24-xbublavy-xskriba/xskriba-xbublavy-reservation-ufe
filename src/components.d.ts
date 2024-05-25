@@ -36,6 +36,7 @@ export namespace Components {
     interface XskribaXbublavyReservationsList {
         "ambulance": Ambulance | null;
         "apiBase": string;
+        "createdReservation": Reservation | null;
         "patient": Patient | null;
     }
 }
@@ -229,6 +230,7 @@ declare namespace LocalJSX {
     interface XskribaXbublavyReservationsList {
         "ambulance"?: Ambulance | null;
         "apiBase"?: string;
+        "createdReservation"?: Reservation | null;
         "onReservationDeleted"?: (event: XskribaXbublavyReservationsListCustomEvent<void>) => void;
         "onReservationUpdated"?: (event: XskribaXbublavyReservationsListCustomEvent<void>) => void;
         "patient"?: Patient | null;
