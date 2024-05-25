@@ -11,7 +11,6 @@ import {
 } from '@stencil/core'
 import { z } from 'zod'
 import dayjs from 'dayjs'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
 
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.svg'
@@ -19,8 +18,6 @@ import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.sv
 import { ReservationApiFactory, Reservation, ReservationInput } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
 import { EXAMINATION_TYPE, SEX_TYPE } from '../../global/constants'
-
-dayjs.extend(localizedFormat)
 
 const schema = z.object({
   message: z.string().optional()
@@ -227,16 +224,16 @@ export class XskribaXbublavyReservationDetail {
           <div class="reservation">
             <small>from:</small>
             <sl-tag variant="primary" size="large" class="date">
-              {dayjs(this.reservation.start).format('LL')}
+              {dayjs.utc(this.reservation.start).format('LL')}
               <small>-</small>
-              {dayjs(this.reservation.start).format('LT')}
+              {dayjs.utc(this.reservation.start).format('LT')}
             </sl-tag>
 
             <small>to:</small>
             <sl-tag variant="primary" size="large" class="date">
-              {dayjs(this.reservation.end).format('LL')}
+              {dayjs.utc(this.reservation.end).format('LL')}
               <small>-</small>
-              {dayjs(this.reservation.end).format('LT')}
+              {dayjs.utc(this.reservation.end).format('LT')}
             </sl-tag>
           </div>
 

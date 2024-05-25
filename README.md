@@ -20,7 +20,7 @@ Objednávací systém na základe požiadavky pacienta, vysielajúceho, alebo od
 - [x] (CREATE) Ako pacient chcem mať možnosť si vytvoriť profil.
 - [x] (UPDATE) Ako pacient chcem mať možnosť upraviť svoj profil.
 - [x] (DELETE) Ako pacient chcem mať možnosť odstrániť svoj profil.
-- [ ] (READ) Ako pacient chcem mať možnosť vidieť svoje žiadosti a termíny vyšetrení.
+- [x] (READ) Ako pacient chcem mať možnosť vidieť svoje žiadosti a termíny vyšetrení.
 
 ## 30 points
 
@@ -49,3 +49,18 @@ Objednávací systém na základe požiadavky pacienta, vysielajúceho, alebo od
 - [ ] CI/CD-Flux – 6 bodov
   - [ ] existencia buildov a releasov a ich úspešnosť
   - [ ] docker push súčasťou CI
+
+## Assignment
+
+- [ ] Nahrajte zip súbor, ktorý obsahuje kópiu git repozitárov pre FE, BE a GitOps, a súbor README.md. V súbore README.md uveďte:
+  - [x] Zadanie projektu + prípady použitia (podľa zadania)
+  - [x] Mená členov tímu, ktorý sa podieľali na projekte
+  - [x] Názov vašej aplikácie na spoločnom klastri
+  - [x] Linka na Github repozitáre obsahujúce FE,BE a gitops. Predpokladáme, že sú public,
+  v opačnom prípade poskytnite prístup čítania obsahu pre cvičiacich.
+  - [ ] Linka na DockerHub registry, kde sú registrované použité softvérové kontajnery.
+  - [x] Linka k FE aplikácii na spločnom klastri
+  - [x] Názov deployment objektu pre UI
+  - [x] Názov deploymentu pre webapi
+  - [ ] Stručný opis riešenie k vyhodnoteteniu - informácie pre hodnotiacich, tak aby sa vedeli zorientovať vo Vašej funkcionalite
+  - [ ] Linka na nasadenie samostatného web UI v Azure Cloud. Musí zobraziť aspoň nejký obsah, s prípadnou chybovou informáciou, že sa nevie pripojiť k web službe

@@ -9,7 +9,15 @@ import successIcon from '@shoelace-style/shoelace/dist/assets/icons/check2-circl
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 
 import { formatFullName } from '../../utils/utils'
-import { Ambulance, Patient, AmbulanceApiFactory, PatientApiFactory } from '../../api/reservation'
+import {
+  Ambulance,
+  Patient,
+  AmbulanceApiFactory,
+  PatientApiFactory,
+  Reservation
+} from '../../api/reservation'
+import { EXAMINATION_TYPE } from '../../global/constants'
+import dayjs from 'dayjs'
 
 const Router = createRouter()
 
@@ -300,6 +308,9 @@ export class XskribaXbublavyReservationApp {
                   <xskriba-xbublavy-reservation-create
                     api-base={this.apiBase}
                     patient={this.selectedPatient}
+                    onReservationCreated={reservation =>
+                      this.handleReservationCreated(reservation.detail)
+                    }
                   />
                 )}
               />
@@ -408,6 +419,18 @@ export class XskribaXbublavyReservationApp {
     Router.push('/')
     this.handleToastShow({
       message: `Patient ${patientName} deleted`,
+      variant: 'success'
+    })
+  }
+
+  /* RESERVATION */
+  private handleReservationCreated(reservation: Reservation) {
+    Router.push(`/patient/${reservation.patient.id}/reservations`)
+    this.handleToastShow({
+      message: `Reservation for ${EXAMINATION_TYPE[reservation.examinationType]} created`,
+      description: `In ambulance ${reservation.ambulance.name} on ${dayjs(reservation.start).format(
+        'LL'
+      )}`,
       variant: 'success'
     })
   }

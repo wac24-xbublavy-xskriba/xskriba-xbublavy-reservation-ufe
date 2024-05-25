@@ -14,6 +14,7 @@ import { z } from 'zod'
 
 import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.svg'
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
+import infoIcon from '@shoelace-style/shoelace/dist/assets/icons/info-circle.svg'
 
 import {
   Examination,
@@ -26,14 +27,24 @@ import dayjs from 'dayjs'
 import { EXAMINATION_TYPE } from '../../global/constants'
 
 const schema = z.object({
-  date: z.string({ required_error: 'Date is required' }).refine(
-    date => {
-      return dayjs(date).endOf('day').isAfter(dayjs().startOf('day'))
-    },
-    {
-      message: 'Date must be in the future'
-    }
-  ),
+  date: z
+    .string({ required_error: 'Date is required' })
+    .refine(
+      date => {
+        return dayjs(date).endOf('day').isAfter(dayjs().startOf('day'))
+      },
+      {
+        message: 'Date must be in the future'
+      }
+    )
+    .refine(
+      date => {
+        return dayjs(date).day() !== 0 && dayjs(date).day() !== 6
+      },
+      {
+        message: 'Only working days are available for reservation'
+      }
+    ),
   examinationType: z.nativeEnum(MedicalExaminations, {
     required_error: 'Examination type is required',
     invalid_type_error: 'Invalid examination type'
@@ -57,6 +68,7 @@ export class XskribaXbublavyReservationCreate {
   @Prop() patient: Patient | null
 
   @State() isFetching: boolean = false
+  @State() isFetched: boolean = false
   @State() isLoading: boolean = false
   @State() isValid: boolean = false
   @State() globalError: string | null = null
@@ -88,7 +100,8 @@ export class XskribaXbublavyReservationCreate {
 
   private async handleSubmit(event: Event) {
     event.preventDefault()
-    this.isLoading = true
+    this.isFetching = true
+    this.globalError = null
 
     if (!this.patient) return
 
@@ -103,12 +116,88 @@ export class XskribaXbublavyReservationCreate {
       console.error(err.message)
       this.globalError = 'An error occurred while creating the ambulance. Please try again.'
     } finally {
+      this.isFetching = false
+      this.isFetched = true
+    }
+  }
+
+  private async handleCreateReservation(examination: Examination) {
+    this.isLoading = true
+
+    if (!this.patient) return
+
+    try {
+      const api = PatientApiFactory(undefined, this.apiBase)
+
+      const result = await api.createReservation(this.patient.id, {
+        ambulanceId: examination.ambulance.id,
+        examinationType: examination.examinationType,
+        start: dayjs.utc(examination.start).toISOString(),
+        end: dayjs.utc(examination.end).toISOString(),
+        patientId: this.patient.id
+      })
+
+      this.reservationCreated.emit(result.data)
+    } catch (err) {
+      console.error(err.message)
+      this.globalError = 'An error occurred while creating the reservation. Please try again.'
+    } finally {
       this.isLoading = false
     }
   }
 
+  private renderExamination(examination: Examination) {
+    return (
+      <sl-card class="reservation">
+        <header slot="header">
+          <div>
+            <h4>{examination.ambulance.name}</h4>
+            <span>{examination.ambulance.address}</span>
+          </div>
+
+          <div class="hours">
+            <span>Office Hours:</span>
+            <div>
+              <sl-tag size="medium">{examination.ambulance.officeHours.open}</sl-tag>
+              <small>-</small>
+              <sl-tag size="medium">{examination.ambulance.officeHours.close}</sl-tag>
+            </div>
+          </div>
+        </header>
+
+        <article>
+          <span>from:</span>
+          <sl-tag variant="primary" size="large" class="date">
+            {dayjs.utc(examination.start).format('LL')}
+            <small>-</small>
+            {dayjs.utc(examination.start).format('LT')}
+          </sl-tag>
+
+          <span>to:</span>
+          <sl-tag variant="primary" size="large" class="date">
+            {dayjs.utc(examination.end).format('LL')}
+            <small>-</small>
+            {dayjs.utc(examination.end).format('LT')}
+          </sl-tag>
+        </article>
+
+        <footer slot="footer">
+          <sl-button
+            disabled={this.isFetching || this.isLoading}
+            loading={this.isLoading}
+            variant="primary"
+            onclick={() => this.handleCreateReservation(examination)}
+          >
+            Accept Reservation
+          </sl-button>
+        </footer>
+      </sl-card>
+    )
+  }
+
   @Watch('patient')
   onUserChange() {
+    this.examinations = []
     forceUpdate(this)
   }
 
@@ -117,8 +206,6 @@ export class XskribaXbublavyReservationCreate {
       Object.values(this.errors).every(error => !error) &&
       this.entry.date &&
       this.entry.examinationType
-
-    console.log(this.examinations)
 
     return (
       <Host>
@@ -129,7 +216,7 @@ export class XskribaXbublavyReservationCreate {
                 src={backIcon}
                 label="Back"
                 {...href(`/ambulance/${this.patient?.id}/reservations`)}
-                disabled={this.isLoading}
+                disabled={this.isFetching || this.isLoading}
               ></sl-icon-button>
 
               <h3>Request Reservation</h3>
@@ -140,10 +227,11 @@ export class XskribaXbublavyReservationCreate {
                 type="date"
                 name="date"
                 label="Date"
+                min={dayjs().format('YYYY-MM-DD')}
                 value={this.entry?.date}
                 on-sl-input={event => this.handleInput(event)}
                 help-text={this.errors?.date}
-                disabled={this.isLoading}
+                disabled={this.isFetching || this.isLoading}
                 required
               ></sl-input>
 
@@ -154,7 +242,7 @@ export class XskribaXbublavyReservationCreate {
                 on-sl-input={event => this.handleInput(event)}
                 value={this.entry?.examinationType}
                 help-text={this.errors.examinationType}
-                disabled={this.isLoading}
+                disabled={this.isFetching || this.isLoading}
                 required
               >
                 {Object.values(MedicalExaminations).map(examination => (
@@ -164,8 +252,8 @@ export class XskribaXbublavyReservationCreate {
 
               <footer>
                 <sl-button
-                  disabled={!canSubmit || this.isLoading}
-                  loading={this.isLoading}
+                  disabled={!canSubmit || this.isFetching || this.isLoading}
+                  loading={this.isFetching}
                   type="submit"
                   variant="primary"
                 >
@@ -186,11 +274,14 @@ export class XskribaXbublavyReservationCreate {
         <section>
           {this.isFetching && <sl-spinner style={{ 'font-size': '3rem' }}></sl-spinner>}
 
-          <div>
-            <sl-card class="reservation">aa</sl-card>
-            <sl-card class="reservation">aa</sl-card>
-            <sl-card class="reservation">aa</sl-card>
-          </div>
+          {this.isFetched && !this.examinations.length && (
+            <sl-alert variant="primary" open>
+              <sl-icon slot="icon" src={infoIcon}></sl-icon>
+              <strong>No ambulance available for the selected date and examination type.</strong>
+            </sl-alert>
+          )}
+
+          <div>{this.examinations.map(this.renderExamination, this)}</div>
         </section>
       </Host>
     )

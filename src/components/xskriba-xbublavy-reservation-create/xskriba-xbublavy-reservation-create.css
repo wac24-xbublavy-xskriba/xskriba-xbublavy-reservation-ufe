@@ -7,7 +7,7 @@
   flex-direction: column;
 }
 
-header {
+.wrapper header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -23,10 +23,14 @@ header {
 .wrapper form {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: flex-start;
 
   width: 100%;
   gap: 18px;
+}
+
+.wrapper form sl-button {
+  padding-top: 21px;
 }
 
 .wrapper form sl-input {
@@ -70,6 +74,69 @@ section div {
 .reservation::part(base) {
   display: flex;
   width: 100%;
+}
+
+.reservation header {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.reservation header div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.reservation header .hours {
+  flex: 0;
+}
+
+.reservation header .hours span {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sl-color-gray-500);
+}
+
+.reservation header .hours div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+.reservation header div h4 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.reservation header div span {
+  font-size: 16px;
+  color: var(--sl-color-gray-500);
+}
+
+.reservation article {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.reservation article span {
+  font-size: 16px;
+  color: var(--sl-color-gray-500);
+}
+
+.date small {
+  padding-inline: 8px;
+}
+
+.reservation footer {
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* Custom styles */

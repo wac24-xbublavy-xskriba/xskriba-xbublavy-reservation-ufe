@@ -27,6 +27,7 @@ import {
 } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
 import { EXAMINATION_TYPE } from '../../global/constants'
+import dayjs from 'dayjs'
 
 @Component({
   tag: 'xskriba-xbublavy-reservations-list',
@@ -53,6 +54,7 @@ export class XskribaXbublavyReservationsList {
       initialView: 'timeGridWeek',
       nowIndicator: true,
       weekNumberCalculation: 'ISO',
+      timeZone: 'UTC',
       aspectRatio: 2.5,
       now: new Date().toISOString(),
       eventClassNames: ['event'],
@@ -61,7 +63,7 @@ export class XskribaXbublavyReservationsList {
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'timeGridWeek,dayGridMonth,listWeek'
+        right: 'timeGridDay,timeGridWeek,dayGridMonth'
       },
       businessHours: [
         {
@@ -116,8 +118,8 @@ export class XskribaXbublavyReservationsList {
           ? formatFullName(reservation.patient.firstName, reservation.patient.lastName)
           : '',
         description: EXAMINATION_TYPE[reservation.examinationType],
-        start: reservation.start,
-        end: reservation.end,
+        start: dayjs.utc(reservation.start).toISOString(),
+        end: dayjs.utc(reservation.end).toISOString(),
         extendedProps: {
           ambulanceId: reservation.ambulance.id,
           patientId: reservation.patient.id

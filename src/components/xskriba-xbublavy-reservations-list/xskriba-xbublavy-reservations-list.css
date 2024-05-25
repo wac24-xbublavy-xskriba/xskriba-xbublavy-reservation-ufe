@@ -25,6 +25,12 @@ header h2 {
   padding: 2px;
   gap: 2px;
   overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.event:hover {
+  background-color: var(--sl-color-green-500);
 }
 
 .event span {
