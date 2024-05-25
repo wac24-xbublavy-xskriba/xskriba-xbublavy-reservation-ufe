@@ -264,13 +264,13 @@ export class XskribaXbublavyReservationApp {
             ) : (
               <Route
                 path={withBase('/')}
-                to={
+                to={withBase(
                   this.selectedAmbulance
                     ? `/ambulance/${this.selectedAmbulance.id}/reservations`
                     : this.selectedPatient
                     ? `/patient/${this.selectedPatient.id}/reservations`
                     : '/'
-                }
+                )}
               />
             )}
 
