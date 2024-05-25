@@ -1,6 +1,7 @@
 import { Component, Host, Prop, State, Watch, forceUpdate, h } from '@stencil/core'
 import { createRouter, href, match, Route } from 'stencil-router-v2'
 import dayjs from 'dayjs'
+import { registerIconLibrary } from '@shoelace-style/shoelace/dist/utilities/icon-library'
 
 import {
   type Ambulance,
@@ -101,6 +102,9 @@ export class XskribaXbublavyReservationApp {
   @Watch('baseUrl')
   handleBaseUrlChange(newValue: string) {
     setBaseUrl(newValue)
+    registerIconLibrary('default', {
+      resolver: name => withBase(`/assets/icons/${name}.svg`)
+    })
   }
 
   render() {
