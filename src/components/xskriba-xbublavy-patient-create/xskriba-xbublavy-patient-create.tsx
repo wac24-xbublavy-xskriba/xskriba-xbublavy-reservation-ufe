@@ -10,7 +10,6 @@ import {
   h
 } from '@stencil/core'
 import { href } from 'stencil-router-v2'
-import { z } from 'zod'
 import dayjs from 'dayjs'
 
 import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.svg'
@@ -19,26 +18,8 @@ import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.sv
 
 import { PatientApiFactory, Sex, type Patient } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
+import { CreatePatientSchema } from '../../global/schemas'
 import { SEX_TYPE } from '../../global/constants'
-
-const schema = z.object({
-  id: z.string().optional(),
-  firstName: z.string({ required_error: 'First name is required' }).trim(),
-  lastName: z.string({ required_error: 'Last name is required' }).trim(),
-  birthday: z
-    .string({ required_error: 'Birthday is required' })
-    .date('Birthday must be a valid date')
-    .refine(
-      date => {
-        return dayjs(date).isBefore(dayjs())
-      },
-      {
-        message: 'Birthday must be in the past'
-      }
-    ),
-  sex: z.nativeEnum(Sex, { required_error: 'Sex is required' }),
-  bio: z.string().default('')
-})
 
 const defaultPatient: Partial<Patient> = {
   id: undefined,
@@ -71,7 +52,7 @@ export class XskribaXbublavyPatientCreate {
 
   private validateField<TName extends keyof Patient>(name: TName, value: Patient[TName]) {
     try {
-      schema.shape[name].parse(value)
+      CreatePatientSchema.shape[name].parse(value)
       this.errors = { ...this.errors, [name]: undefined }
     } catch (e) {
       this.errors = { ...this.errors, [name]: e.errors[0].message }
@@ -94,7 +75,7 @@ export class XskribaXbublavyPatientCreate {
     this.globalError = null
 
     try {
-      const data = schema.parse(this.entry)
+      const data = CreatePatientSchema.parse(this.entry)
       const api = PatientApiFactory(undefined, this.apiBase)
 
       const result = this.userId

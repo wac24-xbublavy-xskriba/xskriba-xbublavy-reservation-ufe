@@ -58,9 +58,9 @@ Objednávací systém na základe požiadavky pacienta, vysielajúceho, alebo od
   - [x] Názov vašej aplikácie na spoločnom klastri
   - [x] Linka na Github repozitáre obsahujúce FE,BE a gitops. Predpokladáme, že sú public,
   v opačnom prípade poskytnite prístup čítania obsahu pre cvičiacich.
-  - [ ] Linka na DockerHub registry, kde sú registrované použité softvérové kontajnery.
+  - [x] Linka na DockerHub registry, kde sú registrované použité softvérové kontajnery.
   - [x] Linka k FE aplikácii na spločnom klastri
   - [x] Názov deployment objektu pre UI
   - [x] Názov deploymentu pre webapi
-  - [ ] Stručný opis riešenie k vyhodnoteteniu - informácie pre hodnotiacich, tak aby sa vedeli zorientovať vo Vašej funkcionalite
-  - [ ] Linka na nasadenie samostatného web UI v Azure Cloud. Musí zobraziť aspoň nejký obsah, s prípadnou chybovou informáciou, že sa nevie pripojiť k web službe
+  - [x] Stručný opis riešenie k vyhodnoteteniu - informácie pre hodnotiacich, tak aby sa vedeli zorientovať vo Vašej funkcionalite
+  - [x] Linka na nasadenie samostatného web UI v Azure Cloud. Musí zobraziť aspoň nejký obsah, s prípadnou chybovou informáciou, že sa nevie pripojiť k web službe

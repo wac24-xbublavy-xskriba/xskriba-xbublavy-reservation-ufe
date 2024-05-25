@@ -44,7 +44,7 @@ export class XskribaXbublavyReservationsList {
 
   @State() reservations: Reservation[] = []
   @State() calendar: Calendar
-  @State() private selectedReservationId: Reservation['id'] | null = null
+  @State() selectedReservationId: Reservation['id'] | null = null
 
   @Event() reservationUpdated: EventEmitter<void>
   @Event() reservationDeleted: EventEmitter<void>
@@ -56,7 +56,7 @@ export class XskribaXbublavyReservationsList {
       nowIndicator: true,
       weekNumberCalculation: 'ISO',
       timeZone: 'UTC',
-      aspectRatio: 2.5,
+      aspectRatio: 2.7,
       now: new Date().toISOString(),
       eventClassNames: ['event'],
       eventDisplay: 'block',

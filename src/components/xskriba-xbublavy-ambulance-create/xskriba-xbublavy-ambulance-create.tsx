@@ -10,34 +10,16 @@ import {
   h
 } from '@stencil/core'
 import { href } from 'stencil-router-v2'
-import { z } from 'zod'
 
 import backIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-left.svg'
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
 import trashIcon from '@shoelace-style/shoelace/dist/assets/icons/trash3-fill.svg'
 
 import { AmbulanceApiFactory, MedicalExaminations, type Ambulance } from '../../api/reservation'
+import { CreateAmbulanceSchema, CreateAmbulanceSchemaTransform } from '../../global/schemas'
 import { isValidTimeBefore } from '../../utils/utils'
-import { EXAMINATION_TYPE, TIME_REGEX } from '../../global/constants'
 
-const schema = z.object({
-  id: z.string().optional(),
-  name: z.string({ required_error: 'Name is required' }).trim(),
-  address: z.string({ required_error: 'Address is required' }).trim(),
-  medicalExaminations: z.array(z.nativeEnum(MedicalExaminations), {
-    required_error: 'Medical examinations are required'
-  }),
-  open: z
-    .string({ required_error: 'Open time is required' })
-    .refine(time => TIME_REGEX.test(time), {
-      message: 'Invalid time format. Expected HH:MM in 24-hour format.'
-    }),
-  close: z
-    .string({ required_error: 'Close time is required' })
-    .refine(time => TIME_REGEX.test(time), {
-      message: 'Invalid time format. Expected HH:MM in 24-hour format.'
-    })
-})
+import { EXAMINATION_TYPE } from '../../global/constants'
 
 export type FormData = Omit<Ambulance, 'officeHours'> & Ambulance['officeHours']
 
@@ -61,6 +43,7 @@ export class XskribaXbublavyAmbulanceCreate {
   @State() isLoading: boolean = false
   @State() isDeleteDialogOpen: boolean = false
   @State() isValid: boolean = false
+
   @State() globalError: string | null = null
   @State() errors: Partial<Record<keyof FormData, string>> = {}
   @State() entry: Partial<FormData> = defaultAmbulance
@@ -71,7 +54,7 @@ export class XskribaXbublavyAmbulanceCreate {
 
   private validateField<TName extends keyof FormData>(name: TName, value: FormData[TName]) {
     try {
-      schema.shape[name].parse(value)
+      CreateAmbulanceSchema.shape[name].parse(value)
       this.errors = { ...this.errors, [name]: undefined }
     } catch (e) {
       this.errors = { ...this.errors, [name]: e.errors[0].message }
@@ -100,9 +83,7 @@ export class XskribaXbublavyAmbulanceCreate {
     }
 
     try {
-      const data = schema
-        .transform(({ open, close, ...data }) => ({ ...data, officeHours: { open, close } }))
-        .parse(this.entry)
+      const data = CreateAmbulanceSchemaTransform.parse(this.entry)
       const api = AmbulanceApiFactory(undefined, this.apiBase)
 
       const result = this.userId
@@ -111,13 +92,8 @@ export class XskribaXbublavyAmbulanceCreate {
 
       await this.reloadAmbulance()
 
-      if (!this.userId) {
-        this.ambulanceCreated.emit(result.data)
-      }
-
-      if (this.userId) {
-        this.ambulanceUpdated.emit(result.data)
-      }
+      if (!this.userId) this.ambulanceCreated.emit(result.data)
+      if (this.userId) this.ambulanceUpdated.emit(result.data)
     } catch (e) {
       console.error(e)
       this.globalError = 'An error occurred while creating the ambulance. Please try again.'

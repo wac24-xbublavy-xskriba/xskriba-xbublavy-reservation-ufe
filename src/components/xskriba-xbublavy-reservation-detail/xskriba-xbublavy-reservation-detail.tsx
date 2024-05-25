@@ -9,7 +9,6 @@ import {
   forceUpdate,
   h
 } from '@stencil/core'
-import { z } from 'zod'
 import dayjs from 'dayjs'
 
 import dangerIcon from '@shoelace-style/shoelace/dist/assets/icons/exclamation-octagon.svg'
@@ -21,11 +20,8 @@ import {
   type ReservationInput
 } from '../../api/reservation'
 import { formatFullName } from '../../utils/utils'
+import { UpdateReservationSchema } from '../../global/schemas'
 import { EXAMINATION_TYPE, SEX_TYPE } from '../../global/constants'
-
-const schema = z.object({
-  message: z.string().optional()
-})
 
 export type FormData = Pick<ReservationInput, 'message'>
 
@@ -57,7 +53,7 @@ export class XskribaXbublavyReservationDetail {
 
   private validateField<TName extends keyof FormData>(name: TName, value: FormData[TName]) {
     try {
-      schema.shape[name].parse(value)
+      UpdateReservationSchema.shape[name].parse(value)
       this.errors = { ...this.errors, [name]: undefined }
     } catch (e) {
       this.errors = { ...this.errors, [name]: e.errors[0].message }
@@ -82,7 +78,7 @@ export class XskribaXbublavyReservationDetail {
     if (!this.patientReservationId || !this.reservation) return
 
     try {
-      const data = schema.parse(this.entry)
+      const data = UpdateReservationSchema.parse(this.entry)
       const api = ReservationApiFactory(undefined, this.apiBase)
 
       await api.updateReservation(this.reservation.id, { ...this.reservation, ...data })

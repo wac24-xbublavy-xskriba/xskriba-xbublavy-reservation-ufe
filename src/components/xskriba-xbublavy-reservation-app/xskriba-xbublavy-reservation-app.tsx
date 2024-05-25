@@ -1,4 +1,4 @@
-import { Component, Host, Prop, State, h } from '@stencil/core'
+import { Component, Host, Prop, State, forceUpdate, h } from '@stencil/core'
 import { createRouter, href, match, Route } from 'stencil-router-v2'
 import dayjs from 'dayjs'
 
@@ -390,6 +390,7 @@ export class XskribaXbublavyReservationApp {
     this.ambulances = await this.getAmbulances()
     this.selectedAmbulance = null
     this.selectedPatient = null
+    forceUpdate(this)
     Router.push('/')
     this.handleToastShow({
       message: `Ambulance ${ambulanceName} deleted`,
@@ -420,6 +421,7 @@ export class XskribaXbublavyReservationApp {
     this.patients = await this.getPatients()
     this.selectedAmbulance = null
     this.selectedPatient = null
+    forceUpdate(this)
     Router.push('/')
     this.handleToastShow({
       message: `Patient ${patientName} deleted`,

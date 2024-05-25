@@ -19,8 +19,8 @@ export class XskribaXbublavyMainMenu {
   @Event() selectAmbulance: EventEmitter<Ambulance>
   @Event() selectPatient: EventEmitter<Patient>
 
-  private renderAmbulances() {
-    return this.ambulances.map(ambulance => (
+  private renderAmbulance(ambulance: Ambulance) {
+    return (
       <sl-menu-item onclick={() => this.selectAmbulance.emit(ambulance)}>
         <div class="wrapper">
           <small>{ambulance.name}</small>
@@ -33,11 +33,11 @@ export class XskribaXbublavyMainMenu {
           </div>
         </div>
       </sl-menu-item>
-    ))
+    )
   }
 
-  private renderPatients() {
-    return this.patients.map(patient => (
+  private renderPatient(patient: Patient) {
+    return (
       <sl-menu-item onclick={() => this.selectPatient.emit(patient)}>
         <div class="wrapper">
           <small>{`${patient.firstName} ${patient.lastName}`}</small>
@@ -46,7 +46,7 @@ export class XskribaXbublavyMainMenu {
           </sl-tag>
         </div>
       </sl-menu-item>
-    ))
+    )
   }
 
   render() {
@@ -67,7 +67,7 @@ export class XskribaXbublavyMainMenu {
               Select Ambulance
             </sl-button>
 
-            <sl-menu>{this.renderAmbulances()}</sl-menu>
+            <sl-menu>{this.ambulances.map(this.renderAmbulance, this)}</sl-menu>
           </sl-dropdown>
 
           <sl-dropdown distance={4} placement="bottom-center">
@@ -75,7 +75,7 @@ export class XskribaXbublavyMainMenu {
               Select Patient
             </sl-button>
 
-            <sl-menu>{this.renderPatients()}</sl-menu>
+            <sl-menu>{this.patients.map(this.renderPatient, this)}</sl-menu>
           </sl-dropdown>
         </section>
 

@@ -25,33 +25,9 @@ import {
   PatientApiFactory
 } from '../../api/reservation'
 import { EXAMINATION_TYPE } from '../../global/constants'
+import { CreateExaminationSchema } from '../../global/schemas'
 
-const schema = z.object({
-  date: z
-    .string({ required_error: 'Date is required' })
-    .refine(
-      date => {
-        return dayjs(date).endOf('day').isAfter(dayjs().startOf('day'))
-      },
-      {
-        message: 'Date must be in the future'
-      }
-    )
-    .refine(
-      date => {
-        return dayjs(date).day() !== 0 && dayjs(date).day() !== 6
-      },
-      {
-        message: 'Only working days are available for reservation'
-      }
-    ),
-  examinationType: z.nativeEnum(MedicalExaminations, {
-    required_error: 'Examination type is required',
-    invalid_type_error: 'Invalid examination type'
-  })
-})
-
-export type FormData = z.input<typeof schema>
+export type FormData = z.input<typeof CreateExaminationSchema>
 
 const defaultRequest: Partial<FormData> = {
   date: dayjs().format('YYYY-MM-DD'),
@@ -81,7 +57,7 @@ export class XskribaXbublavyReservationCreate {
 
   private validateField<TName extends keyof FormData>(name: TName, value: FormData[TName]) {
     try {
-      schema.shape[name].parse(value)
+      CreateExaminationSchema.shape[name].parse(value)
       this.errors = { ...this.errors, [name]: undefined }
     } catch (e) {
       this.errors = { ...this.errors, [name]: e.errors[0].message }
@@ -106,7 +82,7 @@ export class XskribaXbublavyReservationCreate {
     if (!this.patient) return
 
     try {
-      const data = schema.parse(this.entry)
+      const data = CreateExaminationSchema.parse(this.entry)
       const api = PatientApiFactory(undefined, this.apiBase)
 
       const result = await api.requestExamination(this.patient.id, data)
