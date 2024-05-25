@@ -360,7 +360,6 @@ export class XskribaXbublavyReservationApp {
             />
 
             {/* REDIRECT */}
-            <Route path={/.*/} to="/" />
           </Router.Switch>
         </main>
       </Host>
