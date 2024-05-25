@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+:root,
+:host {
+  --md-sys-color-background: #fbf8ff;
+  --md-sys-color-on-background: #1a1b24;
+  --md-sys-color-surface: #fbf8ff;
+  --md-sys-color-surface-dim: #dad8e6;
+  --md-sys-color-surface-bright: #fbf8ff;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #f4f2ff;
+  --md-sys-color-surface-container: #eeecfa;
+  --md-sys-color-surface-container-high: #e9e7f5;
+  --md-sys-color-surface-container-highest: #e3e1ef;
+  --md-sys-color-on-surface: #1a1b24;
+  --md-sys-color-surface-variant: #e2e0f5;
+  --md-sys-color-on-surface-variant: #454556;
+  --md-sys-color-inverse-surface: #2f303a;
+  --md-sys-color-inverse-on-surface: #f1effd;
+  --md-sys-color-outline: #757688;
+  --md-sys-color-outline-variant: #c5c5d9;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-surface-tint: #3743f2;
+  --md-sys-color-primary: #010fd7;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #3e4bf8;
+  --md-sys-color-on-primary-container: #ffffff;
+  --md-sys-color-inverse-primary: #bec2ff;
+  --md-sys-color-secondary: #5057a5;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #afb5ff;
+  --md-sys-color-on-secondary-container: #1d2371;
+  --md-sys-color-tertiary: #700085;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #a226ba;
+  --md-sys-color-on-tertiary-container: #ffffff;
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #410002;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  overflow-x: hidden;
+  user-select: auto !important;
+}
