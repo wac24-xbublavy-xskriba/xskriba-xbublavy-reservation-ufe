@@ -381,7 +381,7 @@ export class XskribaXbublavyReservationApp {
             />
 
             {/* REDIRECT */}
-            <Route path={/.*/} to={withBase('/')} />
+            <Route path={/^(?!.*\.svg$).*/} to={withBase('/')} />
           </Router.Switch>
         </main>
       </Host>
