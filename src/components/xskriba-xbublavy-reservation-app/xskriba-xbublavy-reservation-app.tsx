@@ -42,7 +42,11 @@ export class XskribaXbublavyReservationApp {
 
   private async getAmbulances(): Promise<Ambulance[]> {
     try {
-      const response = await AmbulanceApiFactory(undefined, this.apiBase).getAmbulances()
+      const response = await AmbulanceApiFactory(undefined, this.apiBase).getAmbulances({
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      })
       return response.data
     } catch (err) {
       console.error(err.message)
@@ -52,7 +56,11 @@ export class XskribaXbublavyReservationApp {
 
   private async getPatients(): Promise<Patient[]> {
     try {
-      const response = await PatientApiFactory(undefined, this.apiBase).getPatients()
+      const response = await PatientApiFactory(undefined, this.apiBase).getPatients({
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      })
       return response.data
     } catch (err) {
       console.error(err.message)
