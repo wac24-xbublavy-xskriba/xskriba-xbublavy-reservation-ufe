@@ -259,7 +259,7 @@ export class XskribaXbublavyReservationApp {
                 outline
                 circle
               >
-                <sl-icon name="house-fill" label="Home"></sl-icon>
+                <xskriba-xbublavy-house-fill-icon></xskriba-xbublavy-house-fill-icon>
               </sl-button>
             )}
 

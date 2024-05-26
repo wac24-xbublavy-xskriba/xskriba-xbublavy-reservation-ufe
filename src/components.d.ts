@@ -12,6 +12,8 @@ export namespace Components {
         "apiBase": string;
         "userId": string;
     }
+    interface XskribaXbublavyHouseFillIcon {
+    }
     interface XskribaXbublavyMainMenu {
         "ambulances": Ambulance[];
         "patients": Patient[];
@@ -84,6 +86,12 @@ declare global {
     var HTMLXskribaXbublavyAmbulanceCreateElement: {
         prototype: HTMLXskribaXbublavyAmbulanceCreateElement;
         new (): HTMLXskribaXbublavyAmbulanceCreateElement;
+    };
+    interface HTMLXskribaXbublavyHouseFillIconElement extends Components.XskribaXbublavyHouseFillIcon, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyHouseFillIconElement: {
+        prototype: HTMLXskribaXbublavyHouseFillIconElement;
+        new (): HTMLXskribaXbublavyHouseFillIconElement;
     };
     interface HTMLXskribaXbublavyMainMenuElementEventMap {
         "selectAmbulance": Ambulance;
@@ -183,6 +191,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "xskriba-xbublavy-ambulance-create": HTMLXskribaXbublavyAmbulanceCreateElement;
+        "xskriba-xbublavy-house-fill-icon": HTMLXskribaXbublavyHouseFillIconElement;
         "xskriba-xbublavy-main-menu": HTMLXskribaXbublavyMainMenuElement;
         "xskriba-xbublavy-patient-create": HTMLXskribaXbublavyPatientCreateElement;
         "xskriba-xbublavy-reservation-app": HTMLXskribaXbublavyReservationAppElement;
@@ -198,6 +207,8 @@ declare namespace LocalJSX {
         "onAmbulanceDeleted"?: (event: XskribaXbublavyAmbulanceCreateCustomEvent<string>) => void;
         "onAmbulanceUpdated"?: (event: XskribaXbublavyAmbulanceCreateCustomEvent<Ambulance>) => void;
         "userId"?: string;
+    }
+    interface XskribaXbublavyHouseFillIcon {
     }
     interface XskribaXbublavyMainMenu {
         "ambulances"?: Ambulance[];
@@ -239,6 +250,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "xskriba-xbublavy-ambulance-create": XskribaXbublavyAmbulanceCreate;
+        "xskriba-xbublavy-house-fill-icon": XskribaXbublavyHouseFillIcon;
         "xskriba-xbublavy-main-menu": XskribaXbublavyMainMenu;
         "xskriba-xbublavy-patient-create": XskribaXbublavyPatientCreate;
         "xskriba-xbublavy-reservation-app": XskribaXbublavyReservationApp;
@@ -252,6 +264,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "xskriba-xbublavy-ambulance-create": LocalJSX.XskribaXbublavyAmbulanceCreate & JSXBase.HTMLAttributes<HTMLXskribaXbublavyAmbulanceCreateElement>;
+            "xskriba-xbublavy-house-fill-icon": LocalJSX.XskribaXbublavyHouseFillIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyHouseFillIconElement>;
             "xskriba-xbublavy-main-menu": LocalJSX.XskribaXbublavyMainMenu & JSXBase.HTMLAttributes<HTMLXskribaXbublavyMainMenuElement>;
             "xskriba-xbublavy-patient-create": LocalJSX.XskribaXbublavyPatientCreate & JSXBase.HTMLAttributes<HTMLXskribaXbublavyPatientCreateElement>;
             "xskriba-xbublavy-reservation-app": LocalJSX.XskribaXbublavyReservationApp & JSXBase.HTMLAttributes<HTMLXskribaXbublavyReservationAppElement>;
