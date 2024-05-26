@@ -12,7 +12,17 @@ export namespace Components {
         "apiBase": string;
         "userId": string;
     }
+    interface XskribaXbublavyCheck2CircleIcon {
+    }
+    interface XskribaXbublavyChevronLeftIcon {
+    }
+    interface XskribaXbublavyExclamationOctagonIcon {
+    }
+    interface XskribaXbublavyHospitalFillIcon {
+    }
     interface XskribaXbublavyHouseFillIcon {
+    }
+    interface XskribaXbublavyInfoCircleIcon {
     }
     interface XskribaXbublavyMainMenu {
         "ambulances": Ambulance[];
@@ -21,6 +31,10 @@ export namespace Components {
     interface XskribaXbublavyPatientCreate {
         "apiBase": string;
         "userId": string;
+    }
+    interface XskribaXbublavyPersonPlusFillIcon {
+    }
+    interface XskribaXbublavyPersonVcardFillIcon {
     }
     interface XskribaXbublavyReservationApp {
         "apiBase": string;
@@ -41,6 +55,8 @@ export namespace Components {
         "apiBase": string;
         "createdReservation": Reservation | null;
         "patient": Patient | null;
+    }
+    interface XskribaXbublavyTrash3FillIcon {
     }
 }
 export interface XskribaXbublavyAmbulanceCreateCustomEvent<T> extends CustomEvent<T> {
@@ -87,11 +103,41 @@ declare global {
         prototype: HTMLXskribaXbublavyAmbulanceCreateElement;
         new (): HTMLXskribaXbublavyAmbulanceCreateElement;
     };
+    interface HTMLXskribaXbublavyCheck2CircleIconElement extends Components.XskribaXbublavyCheck2CircleIcon, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyCheck2CircleIconElement: {
+        prototype: HTMLXskribaXbublavyCheck2CircleIconElement;
+        new (): HTMLXskribaXbublavyCheck2CircleIconElement;
+    };
+    interface HTMLXskribaXbublavyChevronLeftIconElement extends Components.XskribaXbublavyChevronLeftIcon, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyChevronLeftIconElement: {
+        prototype: HTMLXskribaXbublavyChevronLeftIconElement;
+        new (): HTMLXskribaXbublavyChevronLeftIconElement;
+    };
+    interface HTMLXskribaXbublavyExclamationOctagonIconElement extends Components.XskribaXbublavyExclamationOctagonIcon, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyExclamationOctagonIconElement: {
+        prototype: HTMLXskribaXbublavyExclamationOctagonIconElement;
+        new (): HTMLXskribaXbublavyExclamationOctagonIconElement;
+    };
+    interface HTMLXskribaXbublavyHospitalFillIconElement extends Components.XskribaXbublavyHospitalFillIcon, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyHospitalFillIconElement: {
+        prototype: HTMLXskribaXbublavyHospitalFillIconElement;
+        new (): HTMLXskribaXbublavyHospitalFillIconElement;
+    };
     interface HTMLXskribaXbublavyHouseFillIconElement extends Components.XskribaXbublavyHouseFillIcon, HTMLStencilElement {
     }
     var HTMLXskribaXbublavyHouseFillIconElement: {
         prototype: HTMLXskribaXbublavyHouseFillIconElement;
         new (): HTMLXskribaXbublavyHouseFillIconElement;
+    };
+    interface HTMLXskribaXbublavyInfoCircleIconElement extends Components.XskribaXbublavyInfoCircleIcon, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyInfoCircleIconElement: {
+        prototype: HTMLXskribaXbublavyInfoCircleIconElement;
+        new (): HTMLXskribaXbublavyInfoCircleIconElement;
     };
     interface HTMLXskribaXbublavyMainMenuElementEventMap {
         "selectAmbulance": Ambulance;
@@ -129,6 +175,18 @@ declare global {
     var HTMLXskribaXbublavyPatientCreateElement: {
         prototype: HTMLXskribaXbublavyPatientCreateElement;
         new (): HTMLXskribaXbublavyPatientCreateElement;
+    };
+    interface HTMLXskribaXbublavyPersonPlusFillIconElement extends Components.XskribaXbublavyPersonPlusFillIcon, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyPersonPlusFillIconElement: {
+        prototype: HTMLXskribaXbublavyPersonPlusFillIconElement;
+        new (): HTMLXskribaXbublavyPersonPlusFillIconElement;
+    };
+    interface HTMLXskribaXbublavyPersonVcardFillIconElement extends Components.XskribaXbublavyPersonVcardFillIcon, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyPersonVcardFillIconElement: {
+        prototype: HTMLXskribaXbublavyPersonVcardFillIconElement;
+        new (): HTMLXskribaXbublavyPersonVcardFillIconElement;
     };
     interface HTMLXskribaXbublavyReservationAppElement extends Components.XskribaXbublavyReservationApp, HTMLStencilElement {
     }
@@ -174,6 +232,7 @@ declare global {
     interface HTMLXskribaXbublavyReservationsListElementEventMap {
         "reservationUpdated": void;
         "reservationDeleted": void;
+        "reservationCreatedShowed": void;
     }
     interface HTMLXskribaXbublavyReservationsListElement extends Components.XskribaXbublavyReservationsList, HTMLStencilElement {
         addEventListener<K extends keyof HTMLXskribaXbublavyReservationsListElementEventMap>(type: K, listener: (this: HTMLXskribaXbublavyReservationsListElement, ev: XskribaXbublavyReservationsListCustomEvent<HTMLXskribaXbublavyReservationsListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -189,15 +248,29 @@ declare global {
         prototype: HTMLXskribaXbublavyReservationsListElement;
         new (): HTMLXskribaXbublavyReservationsListElement;
     };
+    interface HTMLXskribaXbublavyTrash3FillIconElement extends Components.XskribaXbublavyTrash3FillIcon, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyTrash3FillIconElement: {
+        prototype: HTMLXskribaXbublavyTrash3FillIconElement;
+        new (): HTMLXskribaXbublavyTrash3FillIconElement;
+    };
     interface HTMLElementTagNameMap {
         "xskriba-xbublavy-ambulance-create": HTMLXskribaXbublavyAmbulanceCreateElement;
+        "xskriba-xbublavy-check2-circle-icon": HTMLXskribaXbublavyCheck2CircleIconElement;
+        "xskriba-xbublavy-chevron-left-icon": HTMLXskribaXbublavyChevronLeftIconElement;
+        "xskriba-xbublavy-exclamation-octagon-icon": HTMLXskribaXbublavyExclamationOctagonIconElement;
+        "xskriba-xbublavy-hospital-fill-icon": HTMLXskribaXbublavyHospitalFillIconElement;
         "xskriba-xbublavy-house-fill-icon": HTMLXskribaXbublavyHouseFillIconElement;
+        "xskriba-xbublavy-info-circle-icon": HTMLXskribaXbublavyInfoCircleIconElement;
         "xskriba-xbublavy-main-menu": HTMLXskribaXbublavyMainMenuElement;
         "xskriba-xbublavy-patient-create": HTMLXskribaXbublavyPatientCreateElement;
+        "xskriba-xbublavy-person-plus-fill-icon": HTMLXskribaXbublavyPersonPlusFillIconElement;
+        "xskriba-xbublavy-person-vcard-fill-icon": HTMLXskribaXbublavyPersonVcardFillIconElement;
         "xskriba-xbublavy-reservation-app": HTMLXskribaXbublavyReservationAppElement;
         "xskriba-xbublavy-reservation-create": HTMLXskribaXbublavyReservationCreateElement;
         "xskriba-xbublavy-reservation-detail": HTMLXskribaXbublavyReservationDetailElement;
         "xskriba-xbublavy-reservations-list": HTMLXskribaXbublavyReservationsListElement;
+        "xskriba-xbublavy-trash3-fill-icon": HTMLXskribaXbublavyTrash3FillIconElement;
     }
 }
 declare namespace LocalJSX {
@@ -208,7 +281,17 @@ declare namespace LocalJSX {
         "onAmbulanceUpdated"?: (event: XskribaXbublavyAmbulanceCreateCustomEvent<Ambulance>) => void;
         "userId"?: string;
     }
+    interface XskribaXbublavyCheck2CircleIcon {
+    }
+    interface XskribaXbublavyChevronLeftIcon {
+    }
+    interface XskribaXbublavyExclamationOctagonIcon {
+    }
+    interface XskribaXbublavyHospitalFillIcon {
+    }
     interface XskribaXbublavyHouseFillIcon {
+    }
+    interface XskribaXbublavyInfoCircleIcon {
     }
     interface XskribaXbublavyMainMenu {
         "ambulances"?: Ambulance[];
@@ -222,6 +305,10 @@ declare namespace LocalJSX {
         "onPatientDeleted"?: (event: XskribaXbublavyPatientCreateCustomEvent<string>) => void;
         "onPatientUpdated"?: (event: XskribaXbublavyPatientCreateCustomEvent<Patient>) => void;
         "userId"?: string;
+    }
+    interface XskribaXbublavyPersonPlusFillIcon {
+    }
+    interface XskribaXbublavyPersonVcardFillIcon {
     }
     interface XskribaXbublavyReservationApp {
         "apiBase"?: string;
@@ -244,19 +331,30 @@ declare namespace LocalJSX {
         "ambulance"?: Ambulance | null;
         "apiBase"?: string;
         "createdReservation"?: Reservation | null;
+        "onReservationCreatedShowed"?: (event: XskribaXbublavyReservationsListCustomEvent<void>) => void;
         "onReservationDeleted"?: (event: XskribaXbublavyReservationsListCustomEvent<void>) => void;
         "onReservationUpdated"?: (event: XskribaXbublavyReservationsListCustomEvent<void>) => void;
         "patient"?: Patient | null;
     }
+    interface XskribaXbublavyTrash3FillIcon {
+    }
     interface IntrinsicElements {
         "xskriba-xbublavy-ambulance-create": XskribaXbublavyAmbulanceCreate;
+        "xskriba-xbublavy-check2-circle-icon": XskribaXbublavyCheck2CircleIcon;
+        "xskriba-xbublavy-chevron-left-icon": XskribaXbublavyChevronLeftIcon;
+        "xskriba-xbublavy-exclamation-octagon-icon": XskribaXbublavyExclamationOctagonIcon;
+        "xskriba-xbublavy-hospital-fill-icon": XskribaXbublavyHospitalFillIcon;
         "xskriba-xbublavy-house-fill-icon": XskribaXbublavyHouseFillIcon;
+        "xskriba-xbublavy-info-circle-icon": XskribaXbublavyInfoCircleIcon;
         "xskriba-xbublavy-main-menu": XskribaXbublavyMainMenu;
         "xskriba-xbublavy-patient-create": XskribaXbublavyPatientCreate;
+        "xskriba-xbublavy-person-plus-fill-icon": XskribaXbublavyPersonPlusFillIcon;
+        "xskriba-xbublavy-person-vcard-fill-icon": XskribaXbublavyPersonVcardFillIcon;
         "xskriba-xbublavy-reservation-app": XskribaXbublavyReservationApp;
         "xskriba-xbublavy-reservation-create": XskribaXbublavyReservationCreate;
         "xskriba-xbublavy-reservation-detail": XskribaXbublavyReservationDetail;
         "xskriba-xbublavy-reservations-list": XskribaXbublavyReservationsList;
+        "xskriba-xbublavy-trash3-fill-icon": XskribaXbublavyTrash3FillIcon;
     }
 }
 export { LocalJSX as JSX };
@@ -264,13 +362,21 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "xskriba-xbublavy-ambulance-create": LocalJSX.XskribaXbublavyAmbulanceCreate & JSXBase.HTMLAttributes<HTMLXskribaXbublavyAmbulanceCreateElement>;
+            "xskriba-xbublavy-check2-circle-icon": LocalJSX.XskribaXbublavyCheck2CircleIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyCheck2CircleIconElement>;
+            "xskriba-xbublavy-chevron-left-icon": LocalJSX.XskribaXbublavyChevronLeftIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyChevronLeftIconElement>;
+            "xskriba-xbublavy-exclamation-octagon-icon": LocalJSX.XskribaXbublavyExclamationOctagonIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyExclamationOctagonIconElement>;
+            "xskriba-xbublavy-hospital-fill-icon": LocalJSX.XskribaXbublavyHospitalFillIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyHospitalFillIconElement>;
             "xskriba-xbublavy-house-fill-icon": LocalJSX.XskribaXbublavyHouseFillIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyHouseFillIconElement>;
+            "xskriba-xbublavy-info-circle-icon": LocalJSX.XskribaXbublavyInfoCircleIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyInfoCircleIconElement>;
             "xskriba-xbublavy-main-menu": LocalJSX.XskribaXbublavyMainMenu & JSXBase.HTMLAttributes<HTMLXskribaXbublavyMainMenuElement>;
             "xskriba-xbublavy-patient-create": LocalJSX.XskribaXbublavyPatientCreate & JSXBase.HTMLAttributes<HTMLXskribaXbublavyPatientCreateElement>;
+            "xskriba-xbublavy-person-plus-fill-icon": LocalJSX.XskribaXbublavyPersonPlusFillIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyPersonPlusFillIconElement>;
+            "xskriba-xbublavy-person-vcard-fill-icon": LocalJSX.XskribaXbublavyPersonVcardFillIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyPersonVcardFillIconElement>;
             "xskriba-xbublavy-reservation-app": LocalJSX.XskribaXbublavyReservationApp & JSXBase.HTMLAttributes<HTMLXskribaXbublavyReservationAppElement>;
             "xskriba-xbublavy-reservation-create": LocalJSX.XskribaXbublavyReservationCreate & JSXBase.HTMLAttributes<HTMLXskribaXbublavyReservationCreateElement>;
             "xskriba-xbublavy-reservation-detail": LocalJSX.XskribaXbublavyReservationDetail & JSXBase.HTMLAttributes<HTMLXskribaXbublavyReservationDetailElement>;
             "xskriba-xbublavy-reservations-list": LocalJSX.XskribaXbublavyReservationsList & JSXBase.HTMLAttributes<HTMLXskribaXbublavyReservationsListElement>;
+            "xskriba-xbublavy-trash3-fill-icon": LocalJSX.XskribaXbublavyTrash3FillIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyTrash3FillIconElement>;
         }
     }
 }

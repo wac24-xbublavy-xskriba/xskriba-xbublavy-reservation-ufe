@@ -184,12 +184,15 @@ export class XskribaXbublavyAmbulanceCreate {
         <sl-card class="wrapper">
           <header slot="header">
             <div>
-              <sl-icon-button
-                name="chevron-left"
-                label="Back"
+              <sl-button
                 {...href(withBase(isProfile ? `/ambulance/${this.userId}/reservations` : '/'))}
                 disabled={this.isLoading}
-              ></sl-icon-button>
+                variant="text"
+                size="small"
+                circle
+              >
+                <xskriba-xbublavy-chevron-left-icon></xskriba-xbublavy-chevron-left-icon>
+              </sl-button>
 
               <h3>{isProfile ? 'My Profile' : 'Create Ambulance'}</h3>
             </div>
@@ -203,7 +206,7 @@ export class XskribaXbublavyAmbulanceCreate {
                 class="end"
                 circle
               >
-                <sl-icon name="trash3-fill" label="Delete"></sl-icon>
+                <xskriba-xbublavy-trash3-fill-icon></xskriba-xbublavy-trash3-fill-icon>
               </sl-button>
             )}
           </header>
@@ -273,7 +276,7 @@ export class XskribaXbublavyAmbulanceCreate {
 
             {this.globalError && (
               <sl-alert variant="danger" open>
-                <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                <xskriba-xbublavy-exclamation-octagon-icon slot="icon"></xskriba-xbublavy-exclamation-octagon-icon>
                 <strong>{this.globalError}</strong>
               </sl-alert>
             )}

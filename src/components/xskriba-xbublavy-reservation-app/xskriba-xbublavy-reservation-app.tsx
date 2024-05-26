@@ -1,7 +1,6 @@
 import { Component, Host, Prop, State, Watch, forceUpdate, h } from '@stencil/core'
 import { createRouter, href, match, Route } from 'stencil-router-v2'
 import dayjs from 'dayjs'
-import { registerIconLibrary } from '@shoelace-style/shoelace/dist/utilities/icon-library'
 
 import {
   type Ambulance,
@@ -13,19 +12,6 @@ import {
 import { formatFullName } from '../../utils/utils'
 import { EXAMINATION_TYPE } from '../../global/constants'
 import { setBaseUrl, withBase } from '../../store/baseUrlStore'
-
-import {
-  CHECK2_CIRCLE_ICON,
-  CHEVRON_LEFT_ICON,
-  EXCLAMATION_OCTAGON_ICON,
-  EXCLAMATION_TRIANGLE_ICON,
-  HOSPITAL_FILL_ICON,
-  HOUSE_FILL_ICON,
-  INFO_CIRCLE_ICON,
-  PERSON_PLUS_FILL_ICON,
-  PERSON_VCARD_FILL_ICON,
-  TRASH3_FILL_ICON
-} from '../../global/icons'
 
 const Router = createRouter()
 
@@ -115,35 +101,6 @@ export class XskribaXbublavyReservationApp {
   @Watch('baseUrl')
   handleBaseUrlChange(newValue: string) {
     setBaseUrl(newValue)
-
-    registerIconLibrary('default', {
-      resolver: (name: string) => {
-        switch (name) {
-          case 'house-fill':
-            return HOUSE_FILL_ICON
-          case 'check2-circle':
-            return CHECK2_CIRCLE_ICON
-          case 'exclamation-octagon':
-            return EXCLAMATION_OCTAGON_ICON
-          case 'person-plus-fill':
-            return PERSON_PLUS_FILL_ICON
-          case 'hospital-fill':
-            return HOSPITAL_FILL_ICON
-          case 'person-vcard-fill':
-            return PERSON_VCARD_FILL_ICON
-          case 'chevron-left':
-            return CHEVRON_LEFT_ICON
-          case 'trash3-fill':
-            return TRASH3_FILL_ICON
-          case 'exclamation-triangle':
-            return EXCLAMATION_TRIANGLE_ICON
-          case 'info-circle':
-            return INFO_CIRCLE_ICON
-          default:
-            return HOUSE_FILL_ICON
-        }
-      }
-    })
   }
 
   render() {
@@ -162,10 +119,11 @@ export class XskribaXbublavyReservationApp {
           variant={this.toast?.variant}
           sl-after-hide={() => this.handleToastHide()}
         >
-          <sl-icon
-            slot="icon"
-            name={this.toast?.variant === 'success' ? 'check2-circle' : 'exclamation-octagon'}
-          ></sl-icon>
+          {this.toast?.variant === 'success' ? (
+            <xskriba-xbublavy-check2-circle-icon slot="icon"></xskriba-xbublavy-check2-circle-icon>
+          ) : (
+            <xskriba-xbublavy-exclamation-octagon-icon slot="icon"></xskriba-xbublavy-exclamation-octagon-icon>
+          )}
 
           <strong>{this.toast?.message}</strong>
 
@@ -265,17 +223,17 @@ export class XskribaXbublavyReservationApp {
 
             <sl-dropdown distance={8} placement="bottom-end">
               <sl-button slot="trigger" variant="primary" size="large" circle>
-                <sl-icon name="person-plus-fill" label="Create Profile"></sl-icon>
+                <xskriba-xbublavy-person-plus-fill-icon></xskriba-xbublavy-person-plus-fill-icon>
               </sl-button>
 
               <sl-menu>
                 <sl-menu-item {...href(withBase('/ambulance'))}>
-                  <sl-icon slot="prefix" name="hospital-fill"></sl-icon>
+                  <xskriba-xbublavy-hospital-fill-icon slot="prefix"></xskriba-xbublavy-hospital-fill-icon>
                   Create Ambulance
                 </sl-menu-item>
 
                 <sl-menu-item {...href(withBase('/patient'))}>
-                  <sl-icon slot="prefix" name="person-vcard-fill"></sl-icon>
+                  <xskriba-xbublavy-person-vcard-fill-icon slot="prefix"></xskriba-xbublavy-person-vcard-fill-icon>
                   Create Patient
                 </sl-menu-item>
               </sl-menu>
@@ -328,6 +286,7 @@ export class XskribaXbublavyReservationApp {
                     onReservationDeleted={() =>
                       this.handleToastShow({ message: 'Reservation deleted', variant: 'success' })
                     }
+                    onReservationCreatedShowed={() => this.handleReservationCreatedShowed()}
                   />
                 )}
               />
@@ -392,6 +351,7 @@ export class XskribaXbublavyReservationApp {
                     onReservationDeleted={() =>
                       this.handleToastShow({ message: 'Reservation deleted', variant: 'success' })
                     }
+                    onReservationCreatedShowed={() => this.handleReservationCreatedShowed()}
                   />
                 )}
               />
@@ -500,6 +460,10 @@ export class XskribaXbublavyReservationApp {
       )}`,
       variant: 'success'
     })
+  }
+
+  private handleReservationCreatedShowed() {
+    this.createdReservation = null
   }
 
   /* TOAST */

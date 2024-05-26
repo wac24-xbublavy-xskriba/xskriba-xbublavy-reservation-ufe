@@ -178,12 +178,15 @@ export class XskribaXbublavyPatientCreate {
         <sl-card class="wrapper">
           <header slot="header">
             <div>
-              <sl-icon-button
-                name="chevron-left"
-                label="Back"
+              <sl-button
                 {...href(withBase(isProfile ? `/patient/${this.userId}/reservations` : '/'))}
                 disabled={this.isLoading}
-              ></sl-icon-button>
+                variant="text"
+                size="small"
+                circle
+              >
+                <xskriba-xbublavy-chevron-left-icon></xskriba-xbublavy-chevron-left-icon>
+              </sl-button>
 
               <h3>{isProfile ? 'My Profile' : 'Create Patient'}</h3>
             </div>
@@ -197,7 +200,7 @@ export class XskribaXbublavyPatientCreate {
                 class="end"
                 circle
               >
-                <sl-icon name="trash3-fill" label="Delete"></sl-icon>
+                <xskriba-xbublavy-trash3-fill-icon></xskriba-xbublavy-trash3-fill-icon>
               </sl-button>
             )}
           </header>
@@ -269,7 +272,7 @@ export class XskribaXbublavyPatientCreate {
 
             {this.globalError && (
               <sl-alert variant="danger" open>
-                <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                <xskrba-xbublavy-exclamation-octagon-icon slot="icon"></xskrba-xbublavy-exclamation-octagon-icon>
                 <strong>{this.globalError}</strong>
               </sl-alert>
             )}

@@ -49,6 +49,7 @@ export class XskribaXbublavyReservationsList {
 
   @Event() reservationUpdated: EventEmitter<void>
   @Event() reservationDeleted: EventEmitter<void>
+  @Event() reservationCreatedShowed: EventEmitter<void>
 
   private initializeCalendar(calendarEl: HTMLElement) {
     this.calendar = new Calendar(calendarEl, {
@@ -163,7 +164,7 @@ export class XskribaXbublavyReservationsList {
     this.calendar.scrollToTime(start)
 
     this.selectedReservationId = this.createdReservation.id
-    this.createdReservation = null
+    this.reservationCreatedShowed.emit()
   }
 
   render() {

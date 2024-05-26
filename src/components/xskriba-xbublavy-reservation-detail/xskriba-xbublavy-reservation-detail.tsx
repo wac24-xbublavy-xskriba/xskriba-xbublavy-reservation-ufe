@@ -258,7 +258,7 @@ export class XskribaXbublavyReservationDetail {
 
           {this.globalError && (
             <sl-alert variant="danger" open>
-              <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+              <xskriba-xbublavy-exclamation-octagon-icon slot="icon"></xskriba-xbublavy-exclamation-octagon-icon>
               <strong>{this.globalError}</strong>
             </sl-alert>
           )}
@@ -285,7 +285,7 @@ export class XskribaXbublavyReservationDetail {
           outline
         >
           Delete Reservation
-          <sl-icon slot="suffix" name="trash3-fill" label="Delete"></sl-icon>
+          <xskriba-xbublavy-trash3-fill-icon slot="suffix"></xskriba-xbublavy-trash3-fill-icon>
         </sl-button>
       </Host>
     )

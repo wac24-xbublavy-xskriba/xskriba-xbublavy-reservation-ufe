@@ -53,7 +53,7 @@ export class XskribaXbublavyMainMenu {
       <Host>
         {!this.ambulances.length && !this.patients.length && (
           <sl-alert variant="warning" open>
-            <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+            <xskriba-xbublavy-exclamation-triangle-icon slot="icon"></xskriba-xbublavy-exclamation-triangle-icon>
             <strong>There are no ambulances or patients to select.</strong>
             <br />
             Please create an ambulance or patient to continue.

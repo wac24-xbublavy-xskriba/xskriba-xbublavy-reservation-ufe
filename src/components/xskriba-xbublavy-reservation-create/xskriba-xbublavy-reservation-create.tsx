@@ -27,7 +27,12 @@ import { withBase } from '../../store/baseUrlStore'
 export type FormData = z.input<typeof CreateExaminationSchema>
 
 const defaultRequest: Partial<FormData> = {
-  date: dayjs().format('YYYY-MM-DD'),
+  date: (dayjs().day() === 0
+    ? dayjs().add(1, 'day')
+    : dayjs().day() === 6
+    ? dayjs().add(2, 'day')
+    : dayjs()
+  ).format('YYYY-MM-DD'),
   examinationType: undefined
 }
 
@@ -185,12 +190,15 @@ export class XskribaXbublavyReservationCreate {
         <sl-card>
           <article class="wrapper">
             <header>
-              <sl-icon-button
-                name="chevron-left"
-                label="Back"
-                {...href(withBase(`/ambulance/${this.patient?.id}/reservations`))}
+              <sl-button
+                {...href(withBase(`/patient/${this.patient?.id}/reservations`))}
                 disabled={this.isFetching || this.isLoading}
-              ></sl-icon-button>
+                variant="text"
+                size="small"
+                circle
+              >
+                <xskriba-xbublavy-chevron-left-icon></xskriba-xbublavy-chevron-left-icon>
+              </sl-button>
 
               <h3>Request Reservation</h3>
             </header>
@@ -237,7 +245,7 @@ export class XskribaXbublavyReservationCreate {
 
             {this.globalError && (
               <sl-alert variant="danger" open>
-                <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                <xskriba-xbublavy-exclamation-octagon-icon slot="icon"></xskriba-xbublavy-exclamation-octagon-icon>
                 <strong>{this.globalError}</strong>
               </sl-alert>
             )}
@@ -249,7 +257,7 @@ export class XskribaXbublavyReservationCreate {
 
           {this.isFetched && !this.examinations.length && (
             <sl-alert variant="primary" open>
-              <sl-icon slot="icon" name="info-circle"></sl-icon>
+              <xskriba-xbublavy-info-circle-icon slot="icon"></xskriba-xbublavy-info-circle-icon>
               <strong>No ambulance available for the selected date and examination type.</strong>
             </sl-alert>
           )}
