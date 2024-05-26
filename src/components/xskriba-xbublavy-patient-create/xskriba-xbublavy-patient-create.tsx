@@ -254,7 +254,9 @@ export class XskribaXbublavyPatientCreate {
                 required
               >
                 {Object.values(Sex).map(sex => (
-                  <sl-option value={sex}>{SEX_TYPE[sex]}</sl-option>
+                  <sl-option key={sex} value={sex}>
+                    {SEX_TYPE[sex]}
+                  </sl-option>
                 ))}
               </sl-select>
             </div>

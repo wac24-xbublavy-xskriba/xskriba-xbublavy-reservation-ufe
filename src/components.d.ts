@@ -18,6 +18,8 @@ export namespace Components {
     }
     interface XskribaXbublavyExclamationOctagonIcon {
     }
+    interface XskribaXbublavyExclamationTriangleIcon {
+    }
     interface XskribaXbublavyHospitalFillIcon {
     }
     interface XskribaXbublavyHouseFillIcon {
@@ -120,6 +122,12 @@ declare global {
     var HTMLXskribaXbublavyExclamationOctagonIconElement: {
         prototype: HTMLXskribaXbublavyExclamationOctagonIconElement;
         new (): HTMLXskribaXbublavyExclamationOctagonIconElement;
+    };
+    interface HTMLXskribaXbublavyExclamationTriangleIconElement extends Components.XskribaXbublavyExclamationTriangleIcon, HTMLStencilElement {
+    }
+    var HTMLXskribaXbublavyExclamationTriangleIconElement: {
+        prototype: HTMLXskribaXbublavyExclamationTriangleIconElement;
+        new (): HTMLXskribaXbublavyExclamationTriangleIconElement;
     };
     interface HTMLXskribaXbublavyHospitalFillIconElement extends Components.XskribaXbublavyHospitalFillIcon, HTMLStencilElement {
     }
@@ -259,6 +267,7 @@ declare global {
         "xskriba-xbublavy-check2-circle-icon": HTMLXskribaXbublavyCheck2CircleIconElement;
         "xskriba-xbublavy-chevron-left-icon": HTMLXskribaXbublavyChevronLeftIconElement;
         "xskriba-xbublavy-exclamation-octagon-icon": HTMLXskribaXbublavyExclamationOctagonIconElement;
+        "xskriba-xbublavy-exclamation-triangle-icon": HTMLXskribaXbublavyExclamationTriangleIconElement;
         "xskriba-xbublavy-hospital-fill-icon": HTMLXskribaXbublavyHospitalFillIconElement;
         "xskriba-xbublavy-house-fill-icon": HTMLXskribaXbublavyHouseFillIconElement;
         "xskriba-xbublavy-info-circle-icon": HTMLXskribaXbublavyInfoCircleIconElement;
@@ -286,6 +295,8 @@ declare namespace LocalJSX {
     interface XskribaXbublavyChevronLeftIcon {
     }
     interface XskribaXbublavyExclamationOctagonIcon {
+    }
+    interface XskribaXbublavyExclamationTriangleIcon {
     }
     interface XskribaXbublavyHospitalFillIcon {
     }
@@ -343,6 +354,7 @@ declare namespace LocalJSX {
         "xskriba-xbublavy-check2-circle-icon": XskribaXbublavyCheck2CircleIcon;
         "xskriba-xbublavy-chevron-left-icon": XskribaXbublavyChevronLeftIcon;
         "xskriba-xbublavy-exclamation-octagon-icon": XskribaXbublavyExclamationOctagonIcon;
+        "xskriba-xbublavy-exclamation-triangle-icon": XskribaXbublavyExclamationTriangleIcon;
         "xskriba-xbublavy-hospital-fill-icon": XskribaXbublavyHospitalFillIcon;
         "xskriba-xbublavy-house-fill-icon": XskribaXbublavyHouseFillIcon;
         "xskriba-xbublavy-info-circle-icon": XskribaXbublavyInfoCircleIcon;
@@ -365,6 +377,7 @@ declare module "@stencil/core" {
             "xskriba-xbublavy-check2-circle-icon": LocalJSX.XskribaXbublavyCheck2CircleIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyCheck2CircleIconElement>;
             "xskriba-xbublavy-chevron-left-icon": LocalJSX.XskribaXbublavyChevronLeftIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyChevronLeftIconElement>;
             "xskriba-xbublavy-exclamation-octagon-icon": LocalJSX.XskribaXbublavyExclamationOctagonIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyExclamationOctagonIconElement>;
+            "xskriba-xbublavy-exclamation-triangle-icon": LocalJSX.XskribaXbublavyExclamationTriangleIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyExclamationTriangleIconElement>;
             "xskriba-xbublavy-hospital-fill-icon": LocalJSX.XskribaXbublavyHospitalFillIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyHospitalFillIconElement>;
             "xskriba-xbublavy-house-fill-icon": LocalJSX.XskribaXbublavyHouseFillIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyHouseFillIconElement>;
             "xskriba-xbublavy-info-circle-icon": LocalJSX.XskribaXbublavyInfoCircleIcon & JSXBase.HTMLAttributes<HTMLXskribaXbublavyInfoCircleIconElement>;

@@ -79,6 +79,7 @@ export class XskribaXbublavyReservationApp {
   private renderAmbulance(ambulance: Ambulance) {
     return (
       <sl-menu-item
+        key={ambulance.id}
         onclick={() => this.handleSelectAmbulance(ambulance)}
         disabled={this.selectedAmbulance?.id === ambulance.id}
       >
@@ -90,6 +91,7 @@ export class XskribaXbublavyReservationApp {
   private renderPatient(patient: Patient) {
     return (
       <sl-menu-item
+        key={patient.id}
         onclick={() => this.handleSelectPatient(patient)}
         disabled={this.selectedPatient?.id === patient.id}
       >

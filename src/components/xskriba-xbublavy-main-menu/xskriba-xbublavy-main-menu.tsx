@@ -20,7 +20,7 @@ export class XskribaXbublavyMainMenu {
 
   private renderAmbulance(ambulance: Ambulance) {
     return (
-      <sl-menu-item onclick={() => this.selectAmbulance.emit(ambulance)}>
+      <sl-menu-item key={ambulance.id} onclick={() => this.selectAmbulance.emit(ambulance)}>
         <div class="wrapper">
           <small>{ambulance.name}</small>
           <div class="types">
@@ -37,7 +37,7 @@ export class XskribaXbublavyMainMenu {
 
   private renderPatient(patient: Patient) {
     return (
-      <sl-menu-item onclick={() => this.selectPatient.emit(patient)}>
+      <sl-menu-item key={patient.id} onclick={() => this.selectPatient.emit(patient)}>
         <div class="wrapper">
           <small>{`${patient.firstName} ${patient.lastName}`}</small>
           <sl-tag variant="primary" size="small">

@@ -246,7 +246,9 @@ export class XskribaXbublavyAmbulanceCreate {
               multiple
             >
               {Object.values(MedicalExaminations).map(examination => (
-                <sl-option value={examination}>{EXAMINATION_TYPE[examination]}</sl-option>
+                <sl-option key={examination} value={examination}>
+                  {EXAMINATION_TYPE[examination]}
+                </sl-option>
               ))}
             </sl-select>
 
