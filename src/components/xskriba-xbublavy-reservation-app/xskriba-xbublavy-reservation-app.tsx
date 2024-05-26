@@ -45,7 +45,7 @@ export class XskribaXbublavyReservationApp {
       const response = await AmbulanceApiFactory(undefined, this.apiBase).getAmbulances()
       return response.data
     } catch (err) {
-      alert(err.message)
+      console.error(err.message)
       return []
     }
   }
@@ -55,7 +55,7 @@ export class XskribaXbublavyReservationApp {
       const response = await PatientApiFactory(undefined, this.apiBase).getPatients()
       return response.data
     } catch (err) {
-      alert(err.message)
+      console.error(err.message)
       return []
     }
   }
@@ -195,10 +195,10 @@ export class XskribaXbublavyReservationApp {
                   <sl-divider></sl-divider>
 
                   <small class="submenu">Ambulances</small>
-                  {this.ambulances.map(this.renderAmbulance, this)}
+                  {this.ambulances.map(ambulance => this.renderAmbulance(ambulance), this)}
 
                   <small class="submenu">Patients</small>
-                  {this.patients.map(this.renderPatient, this)}
+                  {this.patients.map(patient => this.renderPatient(patient), this)}
                 </sl-menu>
               </sl-dropdown>
             ) : (
@@ -393,6 +393,7 @@ export class XskribaXbublavyReservationApp {
     this.ambulances = await this.getAmbulances()
     this.handleSelectAmbulance(ambulance)
     Router.push(withBase(`/ambulance/${ambulance.id}/reservations`))
+    forceUpdate(this)
     this.handleToastShow({
       message: `Ambulance ${ambulance.name} created`,
       variant: 'success'
@@ -423,6 +424,7 @@ export class XskribaXbublavyReservationApp {
   private async handlePatientCreated(patient: Patient) {
     this.patients = await this.getPatients()
     this.handleSelectPatient(patient)
+    forceUpdate(this)
     Router.push(withBase(`/patient/${patient.id}/reservations`))
     this.handleToastShow({
       message: `Patient ${formatFullName(patient.firstName, patient.lastName)} created`,

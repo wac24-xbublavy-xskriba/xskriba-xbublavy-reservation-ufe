@@ -66,7 +66,9 @@ export class XskribaXbublavyMainMenu {
               Select Ambulance
             </sl-button>
 
-            <sl-menu>{this.ambulances.map(this.renderAmbulance, this)}</sl-menu>
+            <sl-menu>
+              {this.ambulances.map(ambulance => this.renderAmbulance(ambulance), this)}
+            </sl-menu>
           </sl-dropdown>
 
           <sl-dropdown distance={4} placement="bottom-center">
@@ -74,7 +76,7 @@ export class XskribaXbublavyMainMenu {
               Select Patient
             </sl-button>
 
-            <sl-menu>{this.patients.map(this.renderPatient, this)}</sl-menu>
+            <sl-menu>{this.patients.map(patient => this.renderPatient(patient), this)}</sl-menu>
           </sl-dropdown>
         </section>
 
